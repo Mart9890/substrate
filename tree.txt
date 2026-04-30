@@ -1,0 +1,198 @@
+.
++--- dataset_inspection.json
++--- dataset_inspection.md
++--- inspect_datasets.py
++--- raw
+|   +--- bgs-offshore-sbs-250k-geopackage
+|   |   +--- BGS_250k_SeabedSediments_WGS84_v3_FOLK.gpkg
+|   |   +--- OR21009.pdf
+|   +--- BGS_GeoCoast_Statistics
+|   |   +--- Authority_Area_Inundation_2050.lyr
+|   |   +--- Authority_Area_Inundation_2080.lyr
+|   |   +--- Authority_Area_Inundation_2100.lyr
+|   |   +--- Authority_Coastline_Cliff_Erosion_MEAN.lyr
+|   |   +--- Authority_Coastline_Cliff_Erosion_WORST.lyr
+|   |   +--- Authority_Coastline_Inundation_2050.lyr
+|   |   +--- Authority_Coastline_Inundation_2080.lyr
+|   |   +--- Authority_Coastline_Inundation_2100.lyr
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.CPG
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.dbf
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.prj
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.sbn
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.sbx
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.shp
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.shp.xml
+|   |   +--- GeoCoast_v1_Authority_Area_Inundation.shx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.cpg
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.dbf
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.prj
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.sbn
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.sbx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.shp
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.shp.xml
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.shx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.cpg
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.dbf
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.prj
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.sbn
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.sbx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.shp
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.shp.xml
+|   |   +--- GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.shx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.cpg
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.dbf
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.prj
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.sbn
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.sbx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.shp
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.shp.xml
+|   |   +--- GeoCoast_v1_Authority_Coastline_Inundation.shx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.cpg
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.dbf
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.prj
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.sbn
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.sbx
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.shp
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.shp.xml
+|   |   +--- GeoCoast_v1_Authority_Coastline_Multi_Formations.shx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.CPG
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.dbf
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.prj
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.sbn
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.sbx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.shp
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.shp.xml
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.shx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.CPG
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.dbf
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.prj
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.sbn
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.sbx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.shp
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.shp.KWGEOPROCESSING.12160.7980.sr.lock
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.shp.xml
+|   |   +--- GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.shx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.CPG
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.dbf
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.prj
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.sbn
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.sbx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.shp
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.shp.xml
+|   |   +--- GeoCoast_v1_SMP_Coastline_Inundation.shx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.CPG
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.dbf
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.prj
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.sbn
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.sbx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.shp
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.shp.xml
+|   |   +--- GeoCoast_v1_SMP_Coastline_Length.shx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.CPG
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.dbf
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.prj
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.sbn
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.sbx
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.shp
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.shp.xml
+|   |   +--- GeoCoast_v1_SMP_Coastline_Multi_Formations.shx
+|   |   +--- GeoCoast_v1_Statistics_class_limits_scales.xlsx
+|   |   +--- SMP_Coastline_Cliff_Erosion_MEAN.lyr
+|   |   +--- SMP_Coastline_Cliff_Erosion_WORST.lyr
+|   |   +--- SMP_Coastline_Inundation_2050.lyr
+|   |   +--- SMP_Coastline_Inundation_2080.lyr
+|   |   +--- SMP_Coastline_Inundation_2100.lyr
+|   +--- GeoCoast_Erosion_Profile_Domains
+|   |   +--- GeoCoast_v1_Erosion_Domains.lyr
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.CPG
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.dbf
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.prj
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.sbn
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.sbx
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.shp
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.shp.xml
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains.shx
+|   |   +--- GeoCoast_v1_Erosion_Profile_Domains_colour_lookup.xlsx
+|   |   +--- GeoCoast_v1_Profile_Domains.lyr
+|   |   +--- Thumbs.db
+|   +--- Intertidal Substrate Foreshore (England and Scotland)
+|   |   +--- DEFR00000009.dbf
+|   |   +--- DEFR00000009.shp
+|   |   +--- DEFR00000009.shx
+|   |   +--- DEFR00000009.xml
+|   +--- offshore-bedrock-250k-geopackage
+|   |   +--- BGS_BedrockOffshore_250k_WGS84_v3.gpkg
+|   |   +--- OR21010.pdf
+|   +--- Predictive_SBS_UK_V1_GeoPackage
+|   |   +--- BGS_Predictive_Seabed_Sediments_UK_v1.gpkg
+|   |   +--- metadata
+|   |   |   +--- sbs_gravel_md.qmd
+|   |   |   +--- sbs_mud_md.qmd
+|   |   |   +--- sbs_perc_md.qmd
+|   |   |   +--- sbs_sand_md.qmd
+|   |   +--- OR25040.pdf
+|   |   +--- README.txt
+|   +--- TechnicalAppendix_Substrate_EUSeaMap_DRAFT_20101210_0.pdf
+|   +--- UKASH-CombinedMap-v2025.zip
+|   +--- UKASH_CombinedMap_v2025
+|   |   +--- UKASH Combined Map v2025.1.lyr
+|   |   +--- UKASH_CombinedMap_v2025_1_DataInventory.xlsx
+|   |   +--- UKASH_CombinedMap_v2025_1_UserGuide.pdf
+|   |   +--- UKASH_Combined_Map_2025.gdb
+|   |   |   +--- a00000001.gdbindexes
+|   |   |   +--- a00000001.gdbtable
+|   |   |   +--- a00000001.gdbtablx
+|   |   |   +--- a00000001.TablesByName.atx
+|   |   |   +--- a00000002.gdbtable
+|   |   |   +--- a00000002.gdbtablx
+|   |   |   +--- a00000003.gdbindexes
+|   |   |   +--- a00000003.gdbtable
+|   |   |   +--- a00000003.gdbtablx
+|   |   |   +--- a00000004.CatItemsByPhysicalName.atx
+|   |   |   +--- a00000004.CatItemsByType.atx
+|   |   |   +--- a00000004.FDO_UUID.atx
+|   |   |   +--- a00000004.freelist
+|   |   |   +--- a00000004.gdbindexes
+|   |   |   +--- a00000004.gdbtable
+|   |   |   +--- a00000004.gdbtablx
+|   |   |   +--- a00000004.spx
+|   |   |   +--- a00000005.CatItemTypesByName.atx
+|   |   |   +--- a00000005.CatItemTypesByParentTypeID.atx
+|   |   |   +--- a00000005.CatItemTypesByUUID.atx
+|   |   |   +--- a00000005.gdbindexes
+|   |   |   +--- a00000005.gdbtable
+|   |   |   +--- a00000005.gdbtablx
+|   |   |   +--- a00000006.CatRelsByDestinationID.atx
+|   |   |   +--- a00000006.CatRelsByOriginID.atx
+|   |   |   +--- a00000006.CatRelsByType.atx
+|   |   |   +--- a00000006.FDO_UUID.atx
+|   |   |   +--- a00000006.gdbindexes
+|   |   |   +--- a00000006.gdbtable
+|   |   |   +--- a00000006.gdbtablx
+|   |   |   +--- a00000007.CatRelTypesByBackwardLabel.atx
+|   |   |   +--- a00000007.CatRelTypesByDestItemTypeID.atx
+|   |   |   +--- a00000007.CatRelTypesByForwardLabel.atx
+|   |   |   +--- a00000007.CatRelTypesByName.atx
+|   |   |   +--- a00000007.CatRelTypesByOriginItemTypeID.atx
+|   |   |   +--- a00000007.CatRelTypesByUUID.atx
+|   |   |   +--- a00000007.gdbindexes
+|   |   |   +--- a00000007.gdbtable
+|   |   |   +--- a00000007.gdbtablx
+|   |   |   +--- a00000009.freelist
+|   |   |   +--- a00000009.gdbindexes
+|   |   |   +--- a00000009.gdbtable
+|   |   |   +--- a00000009.gdbtablx
+|   |   |   +--- a00000009.spx
+|   |   |   +--- a0000000a.freelist
+|   |   |   +--- a0000000a.gdbindexes
+|   |   |   +--- a0000000a.gdbtable
+|   |   |   +--- a0000000a.gdbtablx
+|   |   |   +--- a0000000a.spx
+|   |   |   +--- a0000000b.freelist
+|   |   |   +--- a0000000b.gdbindexes
+|   |   |   +--- a0000000b.gdbtable
+|   |   |   +--- a0000000b.gdbtablx
+|   |   |   +--- a0000000b.spx
+|   |   |   +--- gdb
+|   |   |   +--- timestamps
++--- tree.txt
