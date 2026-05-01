@@ -1,0 +1,3674 @@
+[
+  {
+    "path": "raw\\bgs-offshore-sbs-250k-geopackage\\BGS_250k_SeabedSediments_WGS84_v3_FOLK.gpkg",
+    "format": "GeoPackage",
+    "file_size_mb": 18.17,
+    "inspected_at": "2026-04-05T19:58:17.221546",
+    "layers": [
+      {
+        "layer": "BGS_250k_SeaBedSediments_WGS84_v3_FOLK",
+        "status": "ok",
+        "error": null,
+        "format": "GeoPackage",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 9036,
+        "bbox": {
+          "minx": -10.583452,
+          "miny": 48.236998,
+          "maxx": 3.9979,
+          "maxy": 63.890408
+        },
+        "fields": {
+          "OBJECTID": {
+            "dtype": "int32",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 9036,
+            "sample_values": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          },
+          "LEX": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "MSQH",
+              "MSQP",
+              "PQU",
+              "PAQU",
+              "QPSED"
+            ]
+          },
+          "LEX_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED)",
+              "MARINE SEDIMENTS, PLEISTOCENE (UNDIFFERENTIATED)",
+              "PRE-QUATERNARY ROCKS (UNDIFFERENTIATED)",
+              "PALAEOZOIC OR QUATERNARY ROCK AND SEDIMENT (UNDIFFERENTIATED) [OFFSHORE ONLY]",
+              "PLEISTOCENE SEDIMENTS (UNDIFFERENTIATED)"
+            ]
+          },
+          "LEX_RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "MSQH-BIOM",
+              "MSQH-SNDGM",
+              "MSQH-GV",
+              "MSQH-XVSZ",
+              "MSQH-GVMUD"
+            ]
+          },
+          "RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "BIOM",
+              "SNDGM",
+              "GV",
+              "XVSZ",
+              "GVMUD"
+            ]
+          },
+          "RCS_X": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "BIOM",
+              "SNDGM",
+              "GV",
+              "S + V + Z",
+              "GVMUD"
+            ]
+          },
+          "RCS_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "MUSSEL DEPOSIT",
+              "GRAVELLY MUDDY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "GRAVEL (SEA BED SEDIMENT, BASED ON FOLK)",
+              "GRAVEL, SAND AND SILT",
+              "GRAVELLY MUD (SEA BED SEDIMENT, BASED ON FOLK)"
+            ]
+          },
+          "RANK": {
+            "dtype": "object",
+            "null_count": 8781,
+            "null_pct": 97.2,
+            "n_unique": 1,
+            "sample_values": [
+              "UNCLASSIFIED"
+            ]
+          },
+          "MAX_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "HOLOCENE",
+              "PLEISTOCENE",
+              "ARCHAEAN",
+              "No Data Entered"
+            ]
+          },
+          "MIN_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "HOLOCENE",
+              "PLEISTOCENE",
+              "NEOGENE",
+              "No Data Entered"
+            ]
+          },
+          "MAX_TIME_Y": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "10000.0",
+              "1800000.0",
+              "4600000000.0",
+              "0.0"
+            ]
+          },
+          "MIN_TIME_Y": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 3,
+            "sample_values": [
+              "0.0",
+              "10000.0",
+              "1800000.0"
+            ]
+          },
+          "MAX_INDEX": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "1110199.0",
+              "1110299.0",
+              "3000000.0",
+              "9999999.0"
+            ]
+          },
+          "MIN_INDEX": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "1110199.0",
+              "1110299.0",
+              "1120000.0",
+              "9999999.0"
+            ]
+          },
+          "MAX_AGE": {
+            "dtype": "object",
+            "null_count": 9036,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "MIN_AGE": {
+            "dtype": "object",
+            "null_count": 9036,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "MAX_EPOCH": {
+            "dtype": "object",
+            "null_count": 978,
+            "null_pct": 10.8,
+            "n_unique": 2,
+            "sample_values": [
+              "HOLOCENE",
+              "PLEISTOCENE"
+            ]
+          },
+          "MIN_EPOCH": {
+            "dtype": "object",
+            "null_count": 978,
+            "null_pct": 10.8,
+            "n_unique": 2,
+            "sample_values": [
+              "HOLOCENE",
+              "PLEISTOCENE"
+            ]
+          },
+          "MAX_SUBPER": {
+            "dtype": "object",
+            "null_count": 9036,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "MIN_SUBPER": {
+            "dtype": "object",
+            "null_count": 9036,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "MAX_PERIOD": {
+            "dtype": "object",
+            "null_count": 978,
+            "null_pct": 10.8,
+            "n_unique": 1,
+            "sample_values": [
+              "QUATERNARY"
+            ]
+          },
+          "MIN_PERIOD": {
+            "dtype": "object",
+            "null_count": 76,
+            "null_pct": 0.8,
+            "n_unique": 2,
+            "sample_values": [
+              "QUATERNARY",
+              "NEOGENE"
+            ]
+          },
+          "MAX_ERA": {
+            "dtype": "object",
+            "null_count": 978,
+            "null_pct": 10.8,
+            "n_unique": 1,
+            "sample_values": [
+              "CAINOZOIC"
+            ]
+          },
+          "MIN_ERA": {
+            "dtype": "object",
+            "null_count": 76,
+            "null_pct": 0.8,
+            "n_unique": 1,
+            "sample_values": [
+              "CAINOZOIC"
+            ]
+          },
+          "MAX_EON": {
+            "dtype": "object",
+            "null_count": 76,
+            "null_pct": 0.8,
+            "n_unique": 2,
+            "sample_values": [
+              "PHANEROZOIC",
+              "ARCHAEAN"
+            ]
+          },
+          "MIN_EON": {
+            "dtype": "object",
+            "null_count": 76,
+            "null_pct": 0.8,
+            "n_unique": 1,
+            "sample_values": [
+              "PHANEROZOIC"
+            ]
+          },
+          "PREV_NAME": {
+            "dtype": "object",
+            "null_count": 9036,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "BGSTYPE": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "250k_SUPERFICIAL"
+            ]
+          },
+          "LEX_RCS_I": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "1110199_MSQH-BIOM",
+              "1110199_MSQH-SNDGM",
+              "1110199_MSQH-GV",
+              "1110199_MSQH-XVSZ",
+              "1110199_MSQH-GVMUD"
+            ]
+          },
+          "LEX_RCS_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - MUSSEL DEPOSIT",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVELLY MUDDY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVEL (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVEL, SAND AND SILT",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVELLY MUD (SEA BED SEDIMENT, BASED ON FOLK)"
+            ]
+          },
+          "VERSION": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "3.0"
+            ]
+          },
+          "RELEASED": {
+            "dtype": "datetime64[ms]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2011-04-01 00:00:00"
+            ]
+          },
+          "NOM_SCALE": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "250000.0"
+            ]
+          },
+          "LEX_ROCK": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 26,
+            "sample_values": [
+              "MSQH-BIOM",
+              "MSQH-GMSD",
+              "MSQH-GV",
+              "MSQH-GRSS",
+              "MSQH-GVMD"
+            ]
+          },
+          "FOLK_D50": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 26,
+            "sample_values": [
+              "MUSSEL DEPOSIT",
+              "GRAVELLY MUDDY SAND",
+              "GRAVEL",
+              "GRAVEL, SAND AND SILT",
+              "GRAVELLY MUD"
+            ]
+          },
+          "FOLK_S": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 16,
+            "sample_values": [
+              "-",
+              "gmS",
+              "G",
+              "gM",
+              "gS"
+            ]
+          },
+          "BGS_ID": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 9036,
+            "sample_values": [
+              "BGS_SBS250k_1",
+              "BGS_SBS250k_2",
+              "BGS_SBS250k_3",
+              "BGS_SBS250k_4",
+              "BGS_SBS250k_5"
+            ]
+          },
+          "SHAPE_LENG": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 9036,
+            "sample_values": [
+              "0.04811207164",
+              "0.05180751911",
+              "0.05813402679",
+              "0.0430050454",
+              "0.05559134381"
+            ]
+          },
+          "BGSREF": {
+            "dtype": "int32",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 22,
+            "sample_values": [
+              "1000",
+              "525",
+              "6",
+              "95",
+              "252"
+            ]
+          }
+        },
+        "notes": []
+      },
+      {
+        "layer": "layer_styles",
+        "status": "error",
+        "error": "'DataFrame' object has no attribute 'crs'",
+        "format": "GeoPackage",
+        "geometry_type": null,
+        "crs": null,
+        "feature_count": 2,
+        "bbox": {},
+        "fields": {},
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_Authority_Area_Inundation.shp",
+    "format": "Shapefile",
+    "file_size_mb": 59.65,
+    "inspected_at": "2026-04-05T19:58:17.521361",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Authority_Area_Inundation",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiPolygon",
+          "Polygon"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 368,
+        "bbox": {
+          "minx": 5512.9985,
+          "miny": 5333.81,
+          "maxx": 655988.9963,
+          "maxy": 1220301.502
+        },
+        "fields": {
+          "DAU": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 368,
+            "sample_values": [
+              "Aberdeen City",
+              "Aberdeenshire",
+              "Abertawe - Swansea",
+              "Adur District",
+              "Allerdale District (B)"
+            ]
+          },
+          "ADM_UNIT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 173,
+            "sample_values": [
+              "ABERDEEN_CITY",
+              "ABERDEENSHIRE",
+              "ABERTAWE_-_SWANSEA",
+              "WEST_SUSSEX_COUNTY",
+              "CUMBRIA_COUNTY"
+            ]
+          },
+          "AREA_KMSQ": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 367,
+            "sample_values": [
+              "205.6",
+              "6338.66",
+              "420.11",
+              "43.65",
+              "1319.33"
+            ]
+          },
+          "POPULATION": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 368,
+            "sample_values": [
+              "222793.0",
+              "252973.0",
+              "238691.0",
+              "61334.0",
+              "96444.0"
+            ]
+          },
+          "URBAN_KMSQ": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 358,
+            "sample_values": [
+              "56.34",
+              "131.79",
+              "63.62",
+              "12.98",
+              "48.16"
+            ]
+          },
+          "BUILD_KMSQ": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 319,
+            "sample_values": [
+              "11.2",
+              "27.32",
+              "12.35",
+              "2.85",
+              "8.67"
+            ]
+          },
+          "ROAD_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 368,
+            "sample_values": [
+              "1309.14",
+              "10566.99",
+              "1524.26",
+              "239.04",
+              "2203.98"
+            ]
+          },
+          "RAILWAY_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 357,
+            "sample_values": [
+              "30.65",
+              "111.56",
+              "45.65",
+              "9.39",
+              "51.44"
+            ]
+          },
+          "RAILWAY_ST": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 39,
+            "sample_values": [
+              "2.0",
+              "9.0",
+              "4.0",
+              "6.0",
+              "12.0"
+            ]
+          },
+          "AREA_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 176,
+            "sample_values": [
+              "1.2",
+              "0.31",
+              "12.67",
+              "18.03",
+              "3.74"
+            ]
+          },
+          "URBAN_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 159,
+            "sample_values": [
+              "0.42",
+              "0.5",
+              "0.46",
+              "12.58",
+              "0.22"
+            ]
+          },
+          "BUILD_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 141,
+            "sample_values": [
+              "0.74",
+              "0.17",
+              "0.07",
+              "16.01",
+              "0.01"
+            ]
+          },
+          "ROAD_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 145,
+            "sample_values": [
+              "0.52",
+              "0.05",
+              "0.16",
+              "16.78",
+              "0.02"
+            ]
+          },
+          "RW_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 142,
+            "sample_values": [
+              "0.39",
+              "0.0",
+              "0.09",
+              "30.25",
+              "0.48"
+            ]
+          },
+          "RWS_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 30,
+            "sample_values": [
+              "0.0",
+              "16.67",
+              "9.09",
+              "33.33",
+              "15.38"
+            ]
+          },
+          "AREA_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 179,
+            "sample_values": [
+              "1.25",
+              "0.38",
+              "13.14",
+              "19.23",
+              "3.94"
+            ]
+          },
+          "URBAN_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 164,
+            "sample_values": [
+              "0.45",
+              "0.53",
+              "0.73",
+              "14.22",
+              "0.0"
+            ]
+          },
+          "BUILD_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 156,
+            "sample_values": [
+              "0.8",
+              "0.23",
+              "0.11",
+              "18.67",
+              "0.31"
+            ]
+          },
+          "ROAD_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 151,
+            "sample_values": [
+              "0.55",
+              "0.06",
+              "0.38",
+              "19.02",
+              "0.15"
+            ]
+          },
+          "RW_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 149,
+            "sample_values": [
+              "0.47",
+              "0.0",
+              "0.09",
+              "31.0",
+              "1.78"
+            ]
+          },
+          "RWS_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 34,
+            "sample_values": [
+              "0.0",
+              "16.67",
+              "7.14",
+              "9.09",
+              "33.33"
+            ]
+          },
+          "AREA_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 180,
+            "sample_values": [
+              "1.27",
+              "0.39",
+              "13.28",
+              "19.78",
+              "4.04"
+            ]
+          },
+          "URBAN_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 168,
+            "sample_values": [
+              "0.47",
+              "0.54",
+              "0.74",
+              "15.11",
+              "0.65"
+            ]
+          },
+          "BUILD_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 152,
+            "sample_values": [
+              "0.83",
+              "0.24",
+              "0.13",
+              "20.36",
+              "0.42"
+            ]
+          },
+          "ROAD_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 154,
+            "sample_values": [
+              "0.58",
+              "0.07",
+              "0.43",
+              "20.05",
+              "0.19"
+            ]
+          },
+          "RW_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 146,
+            "sample_values": [
+              "0.59",
+              "0.0",
+              "0.11",
+              "31.25",
+              "2.12"
+            ]
+          },
+          "RWS_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 38,
+            "sample_values": [
+              "0.0",
+              "16.67",
+              "7.14",
+              "10.0",
+              "9.09"
+            ]
+          },
+          "INUND_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 161,
+            "sample_values": [
+              "0.62",
+              "0.21",
+              "2.68",
+              "15.7",
+              "0.85"
+            ]
+          },
+          "CLASS_2050": {
+            "dtype": "int32",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 8,
+            "sample_values": [
+              "1",
+              "2",
+              "4",
+              "0",
+              "5"
+            ]
+          },
+          "INUND_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 175,
+            "sample_values": [
+              "0.66",
+              "0.24",
+              "2.88",
+              "17.33",
+              "2.83"
+            ]
+          },
+          "CLASS_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 8,
+            "sample_values": [
+              "1.0",
+              "2.0",
+              "5.0",
+              "0.0",
+              "4.0"
+            ]
+          },
+          "INUND_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 173,
+            "sample_values": [
+              "0.69",
+              "0.25",
+              "2.93",
+              "18.18",
+              "2.94"
+            ]
+          },
+          "CLASS_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 8,
+            "sample_values": [
+              "1.0",
+              "2.0",
+              "5.0",
+              "0.0",
+              "4.0"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Authority_Area_Inundation"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN.shp",
+    "format": "Shapefile",
+    "file_size_mb": 33.99,
+    "inspected_at": "2026-04-05T19:58:17.742638",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Authority_Coastline_Cliff_Erosion_MEAN",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "LineString",
+          "MultiLineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 70,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "ADM_UNIT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "ABERDEEN_CITY",
+              "ABERDEENSHIRE",
+              "ABERTAWE_-_SWANSEA",
+              "ANGUS",
+              "ARGYLL_AND_BUTE"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "31.88",
+              "270.41",
+              "83.5",
+              "57.54",
+              "3504.62"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 26,
+            "sample_values": [
+              "1",
+              "6",
+              "8",
+              "932",
+              "2"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Authority_Coastline_Cliff_Erosion_MEAN"
+            ]
+          },
+          "MEAN_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 53,
+            "sample_values": [
+              "8.43",
+              "62.74",
+              "22.22",
+              "30.62",
+              "285.33"
+            ]
+          },
+          "PER_MEAN": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 52,
+            "sample_values": [
+              "26.44",
+              "23.2",
+              "26.61",
+              "53.22",
+              "8.14"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST.shp",
+    "format": "Shapefile",
+    "file_size_mb": 33.99,
+    "inspected_at": "2026-04-05T19:58:17.837380",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Authority_Coastline_Cliff_Erosion_WORST",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "LineString",
+          "MultiLineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 70,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "ADM_UNIT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "ABERDEEN_CITY",
+              "ABERDEENSHIRE",
+              "ABERTAWE_-_SWANSEA",
+              "ANGUS",
+              "ARGYLL_AND_BUTE"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "31.88",
+              "270.41",
+              "83.5",
+              "57.54",
+              "3504.62"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 26,
+            "sample_values": [
+              "1",
+              "6",
+              "8",
+              "932",
+              "2"
+            ]
+          },
+          "HIGH_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 59,
+            "sample_values": [
+              "10.5",
+              "93.36",
+              "22.22",
+              "35.48",
+              "970.49"
+            ]
+          },
+          "PER_HIGH": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 55,
+            "sample_values": [
+              "32.94",
+              "34.53",
+              "26.61",
+              "61.66",
+              "27.69"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Authority_Coastline_Cliff_Erosion_WORST"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_Authority_Coastline_Inundation.shp",
+    "format": "Shapefile",
+    "file_size_mb": 33.99,
+    "inspected_at": "2026-04-05T19:58:17.916662",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Authority_Coastline_Inundation",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "LineString",
+          "MultiLineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 70,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "ADM_UNIT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "ABERDEEN_CITY",
+              "ABERDEENSHIRE",
+              "ABERTAWE_-_SWANSEA",
+              "ANGUS",
+              "ARGYLL_AND_BUTE"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "31.88",
+              "270.41",
+              "83.5",
+              "57.54",
+              "3504.62"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 26,
+            "sample_values": [
+              "1",
+              "6",
+              "8",
+              "932",
+              "2"
+            ]
+          },
+          "INUND2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "24.65",
+              "219.52",
+              "55.36",
+              "25.54",
+              "3066.54"
+            ]
+          },
+          "PER_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "77.31",
+              "81.18",
+              "66.3",
+              "44.38",
+              "87.5"
+            ]
+          },
+          "INUND2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "24.62",
+              "220.84",
+              "55.76",
+              "26.34",
+              "3113.79"
+            ]
+          },
+          "PER_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 69,
+            "sample_values": [
+              "77.22",
+              "81.67",
+              "66.78",
+              "45.78",
+              "88.85"
+            ]
+          },
+          "INUND2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "24.58",
+              "221.63",
+              "55.76",
+              "26.77",
+              "3139.42"
+            ]
+          },
+          "PER_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "77.08",
+              "81.96",
+              "66.77",
+              "46.52",
+              "89.58"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Authority_Coastline_Inundation"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_Authority_Coastline_Multi_Formations.shp",
+    "format": "Shapefile",
+    "file_size_mb": 33.99,
+    "inspected_at": "2026-04-05T19:58:18.011634",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Authority_Coastline_Multi_Formations",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "LineString",
+          "MultiLineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 70,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "ADM_UNIT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "ABERDEEN_CITY",
+              "ABERDEENSHIRE",
+              "ABERTAWE_-_SWANSEA",
+              "ANGUS",
+              "ARGYLL_AND_BUTE"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "31.88",
+              "270.41",
+              "83.5",
+              "57.54",
+              "3504.62"
+            ]
+          },
+          "MULTI_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 61,
+            "sample_values": [
+              "20.34",
+              "186.36",
+              "34.17",
+              "28.72",
+              "872.85"
+            ]
+          },
+          "PER_MULTI": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 60,
+            "sample_values": [
+              "63.79",
+              "68.92",
+              "40.92",
+              "49.91",
+              "24.91"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Authority_Coastline_Multi_Formations"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN.shp",
+    "format": "Shapefile",
+    "file_size_mb": 17.0,
+    "inspected_at": "2026-04-05T19:58:18.106372",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_SMP_Coastline_Cliff_Erosion_MEAN",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiLineString",
+          "LineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 32,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "LPD_SMP": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "Anchor Head to Lavernock Point",
+              "Ayrshire",
+              "Beachy Head to Selsey Bill",
+              "Clyde and Loch Lomond",
+              "Durlston Head to Rame Head"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 20,
+            "sample_values": [
+              "8",
+              "17",
+              "4",
+              "10",
+              "20"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "86.25",
+              "273.45",
+              "96.2",
+              "368.6",
+              "338.54"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "SMP_Coastline_Cliff_Erosion_MEAN"
+            ]
+          },
+          "MEAN_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 30,
+            "sample_values": [
+              "3.17",
+              "51.97",
+              "57.1",
+              "63.79",
+              "12.21"
+            ]
+          },
+          "PER_MEAN": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 30,
+            "sample_values": [
+              "3.68",
+              "19.01",
+              "59.35",
+              "17.31",
+              "3.61"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST.shp",
+    "format": "Shapefile",
+    "file_size_mb": 17.0,
+    "inspected_at": "2026-04-05T19:58:18.169510",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_SMP_Coastline_Cliff_Erosion_WORST",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiLineString",
+          "LineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 32,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "LPD_SMP": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "Anchor Head to Lavernock Point",
+              "Ayrshire",
+              "Beachy Head to Selsey Bill",
+              "Clyde and Loch Lomond",
+              "Durlston Head to Rame Head"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 20,
+            "sample_values": [
+              "8",
+              "17",
+              "4",
+              "10",
+              "20"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "86.25",
+              "273.45",
+              "96.2",
+              "368.6",
+              "338.54"
+            ]
+          },
+          "HIGH_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 30,
+            "sample_values": [
+              "3.17",
+              "177.12",
+              "67.92",
+              "130.33",
+              "34.72"
+            ]
+          },
+          "PER_HIGH": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 30,
+            "sample_values": [
+              "3.68",
+              "64.77",
+              "70.6",
+              "35.36",
+              "10.26"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "SMP_Coastline_Cliff_Erosion_WORST"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_SMP_Coastline_Inundation.shp",
+    "format": "Shapefile",
+    "file_size_mb": 17.0,
+    "inspected_at": "2026-04-05T19:58:18.248598",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_SMP_Coastline_Inundation",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiLineString",
+          "LineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 32,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "LPD_SMP": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "Anchor Head to Lavernock Point",
+              "Ayrshire",
+              "Beachy Head to Selsey Bill",
+              "Clyde and Loch Lomond",
+              "Durlston Head to Rame Head"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 20,
+            "sample_values": [
+              "8",
+              "17",
+              "4",
+              "10",
+              "20"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "86.25",
+              "273.45",
+              "96.2",
+              "368.6",
+              "338.54"
+            ]
+          },
+          "INUND2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "40.8",
+              "213.47",
+              "19.02",
+              "330.44",
+              "76.35"
+            ]
+          },
+          "PER_2050": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "47.3",
+              "78.06",
+              "19.77",
+              "89.65",
+              "22.55"
+            ]
+          },
+          "INUND2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "44.46",
+              "218.78",
+              "19.12",
+              "332.72",
+              "77.99"
+            ]
+          },
+          "PER_2080": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "51.55",
+              "80.01",
+              "19.87",
+              "90.27",
+              "23.04"
+            ]
+          },
+          "INUND2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "46.46",
+              "222.84",
+              "19.15",
+              "333.91",
+              "79.09"
+            ]
+          },
+          "PER_2100": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "53.86",
+              "81.49",
+              "19.91",
+              "90.59",
+              "23.36"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "SMP_Coastline_Inundation"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_SMP_Coastline_Length.shp",
+    "format": "Shapefile",
+    "file_size_mb": 17.0,
+    "inspected_at": "2026-04-05T19:58:18.312044",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_SMP_Coastline_Length",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiLineString",
+          "LineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 32,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "LPD_SMP": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "Anchor Head to Lavernock Point",
+              "Ayrshire",
+              "Beachy Head to Selsey Bill",
+              "Clyde and Loch Lomond",
+              "Durlston Head to Rame Head"
+            ]
+          },
+          "SECTIONS": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 20,
+            "sample_values": [
+              "8",
+              "17",
+              "4",
+              "10",
+              "20"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "86.25",
+              "273.45",
+              "96.2",
+              "368.6",
+              "338.54"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "SMP_Coastline_Length"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\BGS_GeoCoast_Statistics\\GeoCoast_v1_SMP_Coastline_Multi_Formations.shp",
+    "format": "Shapefile",
+    "file_size_mb": 17.0,
+    "inspected_at": "2026-04-05T19:58:18.375383",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_SMP_Coastline_Multi_Formations",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "MultiLineString",
+          "LineString"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 32,
+        "bbox": {
+          "minx": 54236.5027,
+          "miny": 11487.9263,
+          "maxx": 655431.2811,
+          "maxy": 976857.69
+        },
+        "fields": {
+          "LPD_SMP": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "Anchor Head to Lavernock Point",
+              "Ayrshire",
+              "Beachy Head to Selsey Bill",
+              "Clyde and Loch Lomond",
+              "Durlston Head to Rame Head"
+            ]
+          },
+          "COAST_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 32,
+            "sample_values": [
+              "86.25",
+              "273.45",
+              "96.2",
+              "368.6",
+              "338.54"
+            ]
+          },
+          "MULTI_KM": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 31,
+            "sample_values": [
+              "36.12",
+              "187.02",
+              "84.12",
+              "84.22",
+              "213.4"
+            ]
+          },
+          "PER_MULTI": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 31,
+            "sample_values": [
+              "41.88",
+              "68.39",
+              "87.44",
+              "22.85",
+              "63.03"
+            ]
+          },
+          "PRODUCT": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "SMP_Coastline_Multi_Formations"
+            ]
+          }
+        },
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\GeoCoast_Erosion_Profile_Domains\\GeoCoast_v1_Erosion_Profile_Domains.shp",
+    "format": "Shapefile",
+    "file_size_mb": 50.7,
+    "inspected_at": "2026-04-05T19:58:18.454205",
+    "layers": [
+      {
+        "layer": "GeoCoast_v1_Erosion_Profile_Domains",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "Polygon"
+        ],
+        "crs": "EPSG:27700",
+        "feature_count": 390899,
+        "bbox": {
+          "minx": 54200.0,
+          "miny": 11200.0,
+          "maxx": 655650.0,
+          "maxy": 976900.0
+        },
+        "fields": {
+          "ErosionDom": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 10,
+            "sample_values": [
+              "J",
+              "G",
+              "H",
+              "A",
+              "F"
+            ]
+          },
+          "ErosionSus": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "Typically high susceptibility to erosion",
+              "Typically moderate-high susceptibility to erosion",
+              "Typically low susceptibility to erosion",
+              "Typically moderate susceptibility to erosion",
+              "Typically low-moderate susceptibility to erosion"
+            ]
+          },
+          "ErosionBac": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "Generally backshore area is present above high water mark",
+              "Generally an absence of backshore area above high-water mark"
+            ]
+          },
+          "ProfileDom": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 12,
+            "sample_values": [
+              "2",
+              "5",
+              "10",
+              "1",
+              "6"
+            ]
+          },
+          "ProfileH": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "Very Low",
+              "Low",
+              "High",
+              "Moderate",
+              "No Data"
+            ]
+          },
+          "ProfileR": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "High",
+              "Moderate",
+              "Low",
+              "No Data"
+            ]
+          },
+          "smp": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 24,
+            "sample_values": [
+              "05 - Hunstanton to Kelling Hard",
+              "NA",
+              "03 - Flamborough Head to Gibraltar Point",
+              "02 - The Tyne to Flamborough Head",
+              "14 - IoW"
+            ]
+          },
+          "Product": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_v1"
+            ]
+          },
+          "Dataset": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "GeoCoast_Erosion_Profile_Domains"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 390,899 features"
+        ]
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\Intertidal Substrate Foreshore (England and Scotland)\\DEFR00000009.shp",
+    "format": "Shapefile",
+    "file_size_mb": 20.28,
+    "inspected_at": "2026-04-05T19:58:23.004950",
+    "layers": [
+      {
+        "layer": "DEFR00000009",
+        "status": "ok",
+        "error": null,
+        "format": "Shapefile",
+        "geometry_type": [
+          "Polygon",
+          "MultiPolygon"
+        ],
+        "crs": "Unknown",
+        "feature_count": 14750,
+        "bbox": {
+          "minx": 5090.273413,
+          "miny": 4890.570057,
+          "maxx": 656068.881123,
+          "maxy": 1220738.501045
+        },
+        "fields": {
+          "BACK_DESC": {
+            "dtype": "object",
+            "null_count": 7353,
+            "null_pct": 73.5,
+            "n_unique": 13,
+            "sample_values": [
+              "SAND & GRAVEL",
+              "ROCK PLATFORM",
+              "GRAVEL",
+              "SAND",
+              "MUD & GRAVEL"
+            ]
+          },
+          "FORE_DESC": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 13,
+            "sample_values": [
+              "MUD & GRAVEL",
+              "SAND",
+              "MUD",
+              "BOULDERS/LOOSE ROCK",
+              "MADE GROUND (MAN MADE)"
+            ]
+          },
+          "PUBLICA-0": {
+            "dtype": "datetime64[ms]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2004-11-05 00:00:00"
+            ]
+          },
+          "SOURCE": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "BASED ON BGS EXPERT KNOWLEDGE AND ORDNANCE SURVEY DATA",
+              "BASED ON BGS EXPERT KNOWLEDGE, FUTURECOAST AND ORDNANCE SURVEY DATA",
+              "FUTURECOAST",
+              "BASED ON BGS EXPERT KNOWLEDGE, ORDNANCE SURVEY AND MNCR DATA",
+              "BASED ON BGS EXPERT KNOWLEDGE, FUTURECOAST AND ORNDANCE SURVEY DATA"
+            ]
+          },
+          "SPIRE_I-0": {
+            "dtype": "datetime64[ms]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2006-12-12 00:00:00"
+            ]
+          },
+          "SPIRE_N-0": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 10000,
+            "sample_values": [
+              "90000014225.0",
+              "90000000912.0",
+              "90000014410.0",
+              "90000006791.0",
+              "90000009946.0"
+            ]
+          },
+          "SPIRE_U-0": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 10000,
+            "sample_values": [
+              "defr000000090000014225",
+              "defr000000090000000912",
+              "defr000000090000014410",
+              "defr000000090000006791",
+              "defr000000090000009946"
+            ]
+          },
+          "SPIRE_V-0": {
+            "dtype": "int64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "1"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 14,750 features"
+        ]
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\offshore-bedrock-250k-geopackage\\BGS_BedrockOffshore_250k_WGS84_v3.gpkg",
+    "format": "GeoPackage",
+    "file_size_mb": 10.29,
+    "inspected_at": "2026-04-05T19:58:23.266844",
+    "layers": [
+      {
+        "layer": "BGS_250k_BedrockOffshore_WGS84_v3",
+        "status": "ok",
+        "error": null,
+        "format": "GeoPackage",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 2620,
+        "bbox": {
+          "minx": -15.002715,
+          "miny": 48.2786,
+          "maxx": 3.997922,
+          "maxy": 61.999311
+        },
+        "fields": {
+          "LEX": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 188,
+            "sample_values": [
+              "JYVO",
+              "UMAZ",
+              "GERU",
+              "DEVC",
+              "PLIE"
+            ]
+          },
+          "LEX_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 188,
+            "sample_values": [
+              "JERSEY VOLCANIC GROUP",
+              "UNNAMED METAMORPHIC ROCKS, NEOPROTEROZOIC",
+              "EOCENE ROCKS (UNDIFFERENTIATED)",
+              "DEVONIAN AND CARBONIFEROUS ROCKS (UNDIFFERENTIATED)",
+              "PLIEMONT FORMATION"
+            ]
+          },
+          "LEX_RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 270,
+            "sample_values": [
+              "JYVO-LATU",
+              "UMAZ-SCH",
+              "GERU-LMST",
+              "DEVC-MDSL",
+              "PLIE-SIMD"
+            ]
+          },
+          "RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 94,
+            "sample_values": [
+              "LATU",
+              "SCH",
+              "LMST",
+              "MDSL",
+              "SIMD"
+            ]
+          },
+          "RCS_X": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 94,
+            "sample_values": [
+              "LAVA + TUF",
+              "SCH",
+              "LMST",
+              "MDST + SDST + LMST",
+              "SLST + MDST"
+            ]
+          },
+          "RCS_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 98,
+            "sample_values": [
+              "LAVA (UNDIFFERENTIATED) and TUFF",
+              "SCHIST",
+              "LIMESTONE",
+              "MUDSTONE and SANDSTONE (UNDIFFERENTIATED) and LIMESTONE",
+              "SILTSTONE (UNDIFFERENTIATED) and MUDSTONE"
+            ]
+          },
+          "RANK": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 12,
+            "sample_values": [
+              "GROUP",
+              "UNCLASSIFIED",
+              "-",
+              "NOT APPLICABLE",
+              "INTRUSION"
+            ]
+          },
+          "MAX_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 70,
+            "sample_values": [
+              "NEOPROTEROZOIC",
+              "EOCENE",
+              "DEVONIAN",
+              "DANIAN",
+              "ORDOVICIAN"
+            ]
+          },
+          "MIN_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 72,
+            "sample_values": [
+              "NEOPROTEROZOIC",
+              "EOCENE",
+              "CARBONIFEROUS",
+              "DANIAN",
+              "SILURIAN"
+            ]
+          },
+          "MAX_TIME_Y": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 51,
+            "sample_values": [
+              "1000000000.0",
+              "54800000.0",
+              "417000000.0",
+              "65000000.0",
+              "495000000.0"
+            ]
+          },
+          "MIN_TIME_Y": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 53,
+            "sample_values": [
+              "545000000.0",
+              "33700000.0",
+              "290000000.0",
+              "61000000.0",
+              "417000000.0"
+            ]
+          },
+          "MAX_INDEX": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 79,
+            "sample_values": [
+              "2100000.0",
+              "1130200.0",
+              "1330000.0",
+              "1130330.0",
+              "1350000.0"
+            ]
+          },
+          "MIN_INDEX": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 83,
+            "sample_values": [
+              "2100000.0",
+              "1130200.0",
+              "1320000.0",
+              "1130330.0",
+              "1340000.0"
+            ]
+          },
+          "MAX_AGE": {
+            "dtype": "object",
+            "null_count": 23,
+            "null_pct": 0.9,
+            "n_unique": 28,
+            "sample_values": [
+              "-",
+              "DANIAN",
+              "MAASTRICHTIAN",
+              "LUTETIAN",
+              "RHAETIAN"
+            ]
+          },
+          "MIN_AGE": {
+            "dtype": "object",
+            "null_count": 6,
+            "null_pct": 0.2,
+            "n_unique": 28,
+            "sample_values": [
+              "-",
+              "DANIAN",
+              "MAASTRICHTIAN",
+              "BARTONIAN",
+              "AALENIAN"
+            ]
+          },
+          "MAX_EPOCH": {
+            "dtype": "object",
+            "null_count": 6,
+            "null_pct": 0.2,
+            "n_unique": 31,
+            "sample_values": [
+              "-",
+              "EOCENE",
+              "PALEOCENE",
+              "LATE CRETACEOUS",
+              "OLIGOCENE"
+            ]
+          },
+          "MIN_EPOCH": {
+            "dtype": "object",
+            "null_count": 3,
+            "null_pct": 0.1,
+            "n_unique": 32,
+            "sample_values": [
+              "-",
+              "EOCENE",
+              "PALEOCENE",
+              "LATE CRETACEOUS",
+              "OLIGOCENE"
+            ]
+          },
+          "MAX_SUBPER": {
+            "dtype": "object",
+            "null_count": 21,
+            "null_pct": 0.8,
+            "n_unique": 3,
+            "sample_values": [
+              "-",
+              "DINANTIAN",
+              "SILESIAN"
+            ]
+          },
+          "MIN_SUBPER": {
+            "dtype": "object",
+            "null_count": 21,
+            "null_pct": 0.8,
+            "n_unique": 3,
+            "sample_values": [
+              "-",
+              "DINANTIAN",
+              "SILESIAN"
+            ]
+          },
+          "MAX_PERIOD": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "-",
+              "PALAEOGENE",
+              "DEVONIAN",
+              "ORDOVICIAN",
+              "CAMBRIAN"
+            ]
+          },
+          "MIN_PERIOD": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 13,
+            "sample_values": [
+              "-",
+              "PALAEOGENE",
+              "CARBONIFEROUS",
+              "SILURIAN",
+              "ORDOVICIAN"
+            ]
+          },
+          "MAX_ERA": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 7,
+            "sample_values": [
+              "NEOPROTEROZOIC",
+              "CAINOZOIC",
+              "PALAEOZOIC",
+              "MESOZOIC",
+              "PALAEOPROTEROZOIC"
+            ]
+          },
+          "MIN_ERA": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 7,
+            "sample_values": [
+              "NEOPROTEROZOIC",
+              "CAINOZOIC",
+              "PALAEOZOIC",
+              "MESOZOIC",
+              "PALAEOPROTEROZOIC"
+            ]
+          },
+          "MAX_EON": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "PROTEROZOIC",
+              "PHANEROZOIC",
+              "-",
+              "ARCHAEAN"
+            ]
+          },
+          "MIN_EON": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 4,
+            "sample_values": [
+              "PROTEROZOIC",
+              "PHANEROZOIC",
+              "-",
+              "ARCHAEAN"
+            ]
+          },
+          "VERSION": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "DiGRock250k_v3"
+            ]
+          },
+          "RELEASED": {
+            "dtype": "datetime64[ms]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2013-12-01 00:00:00"
+            ]
+          },
+          "NOM_SCALE": {
+            "dtype": "int32",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "250000"
+            ]
+          },
+          "LEX_ROCK": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 270,
+            "sample_values": [
+              "JYVO-LATU",
+              "UMAZ-SCHI",
+              "GERU-LMST",
+              "DEVC-MDSL",
+              "PLIE-SIMD"
+            ]
+          }
+        },
+        "notes": []
+      },
+      {
+        "layer": "BGS_250k_LinearBedrockOffshore_WGS84_v3",
+        "status": "ok",
+        "error": null,
+        "format": "GeoPackage",
+        "geometry_type": [
+          "MultiLineString"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 3736,
+        "bbox": {
+          "minx": -14.412983,
+          "miny": 49.000733,
+          "maxx": 3.997332,
+          "maxy": 61.376241
+        },
+        "fields": {
+          "CATEGORY": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "FOLD_AXIS",
+              "FAULT"
+            ]
+          },
+          "FEATURE": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "Syncline",
+              "Anticline",
+              "Monocline_lower",
+              "Thrust_Fault_Barbs_on_hanging_wall_side",
+              "Fault_at_rockhead"
+            ]
+          },
+          "FEATURE_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "Axial plane trace of major syncline",
+              "Axial plane trace of major anticline",
+              "Trace of lower hinge of major monocline",
+              "Thrust Fault; barbs on hanging wall side",
+              "Fault at rockhead"
+            ]
+          },
+          "VERSION": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "DiGRock250k_v3"
+            ]
+          },
+          "RELEASED": {
+            "dtype": "datetime64[ms]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2013-12-01 00:00:00"
+            ]
+          },
+          "NOM_SCALE": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "250000.0"
+            ]
+          }
+        },
+        "notes": []
+      },
+      {
+        "layer": "layer_styles",
+        "status": "error",
+        "error": "'DataFrame' object has no attribute 'crs'",
+        "format": "GeoPackage",
+        "geometry_type": null,
+        "crs": null,
+        "feature_count": 3,
+        "bbox": {},
+        "fields": {},
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\Predictive_SBS_UK_V1_GeoPackage\\BGS_Predictive_Seabed_Sediments_UK_v1.gpkg",
+    "format": "GeoPackage",
+    "file_size_mb": 442.01,
+    "inspected_at": "2026-04-05T19:58:23.375583",
+    "layers": [
+      {
+        "layer": "classified_seabed_sediments_folk_uk_v1",
+        "status": "ok",
+        "error": null,
+        "format": "GeoPackage",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 475371,
+        "bbox": {
+          "minx": -12.246062,
+          "miny": 48.060273,
+          "maxx": 3.413938,
+          "maxy": 62.201094
+        },
+        "fields": {
+          "FOLK_S": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "S",
+              "(g)S",
+              "mS",
+              "G",
+              "gS"
+            ]
+          },
+          "Folk_Class": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "Sand",
+              "(gravelly) Sand",
+              "muddy Sand",
+              "Gravel",
+              "gravelly Sand"
+            ]
+          },
+          "LEX_RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "MSQH-SND",
+              "MSQH-SLGVSD",
+              "MSQH-MUDSND",
+              "MSQH-GV",
+              "MSQH-GVSND"
+            ]
+          },
+          "LEX_RCS_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - SLIGHTLY GRAVELLY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - MUDDY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVEL (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED) - GRAVELLY SAND (SEA BED SEDIMENT, BASED ON FOLK)"
+            ]
+          },
+          "LEX": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "MSQH",
+              "PQU"
+            ]
+          },
+          "LEX_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "MARINE SEDIMENTS, HOLOCENE (UNDIFFERENTIATED)",
+              "PRE-QUATERNARY ROCKS (UNDIFFERENTIATED)"
+            ]
+          },
+          "RCS": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "SND",
+              "SLGVSD",
+              "MUDSND",
+              "GV",
+              "GVSND"
+            ]
+          },
+          "RCS_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "SLIGHTLY GRAVELLY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "MUDDY SAND (SEA BED SEDIMENT, BASED ON FOLK)",
+              "GRAVEL (SEA BED SEDIMENT, BASED ON FOLK)",
+              "GRAVELLY SAND (SEA BED SEDIMENT, BASED ON FOLK)"
+            ]
+          },
+          "MAX_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "HOLOCENE",
+              "ARCHAEAN"
+            ]
+          },
+          "MIN_TIME_D": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "HOLOCENE",
+              "NEOGENE"
+            ]
+          },
+          "BGSREF": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 14,
+            "sample_values": [
+              "600.0",
+              "903.0",
+              "922.0",
+              "6.0",
+              "603.0"
+            ]
+          },
+          "VERSION": {
+            "dtype": "float64",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "1.0"
+            ]
+          },
+          "DATASET": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Predictive_Seabed_Sediments_UK_v1"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 475,371 features"
+        ]
+      },
+      {
+        "layer": "layer_styles",
+        "status": "error",
+        "error": "'DataFrame' object has no attribute 'crs'",
+        "format": "GeoPackage",
+        "geometry_type": null,
+        "crs": null,
+        "feature_count": 4,
+        "bbox": {},
+        "fields": {},
+        "notes": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "path": "raw\\UKASH_CombinedMap_v2025\\UKASH_Combined_Map_2025.gdb",
+    "format": "FileGDB",
+    "file_size_mb": 1912.29,
+    "inspected_at": "2026-04-05T19:58:28.136507",
+    "layers": [
+      {
+        "layer": "UKASH_Combined_Map_v2025_1",
+        "status": "ok",
+        "error": null,
+        "format": "FileGDB",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 1407449,
+        "bbox": {
+          "minx": -25.134449,
+          "miny": 47.4354,
+          "maxx": 3.39855,
+          "maxy": 63.886944
+        },
+        "fields": {
+          "SNCB_UID": {
+            "dtype": "object",
+            "null_count": 717,
+            "null_pct": 7.2,
+            "n_unique": 149,
+            "sample_values": [
+              " ",
+              "D_00362",
+              "UKSM2025",
+              "D_00376",
+              "NE_0729"
+            ]
+          },
+          "EMODnetGUI": {
+            "dtype": "object",
+            "null_count": 3653,
+            "null_pct": 36.5,
+            "n_unique": 267,
+            "sample_values": [
+              "GB001128",
+              "GB000329",
+              "GB000279",
+              "GB001070",
+              "GB000331"
+            ]
+          },
+          "OrigCode": {
+            "dtype": "object",
+            "null_count": 1464,
+            "null_pct": 14.6,
+            "n_unique": 448,
+            "sample_values": [
+              " ",
+              "A2.3",
+              "SS.SSa.IFiSa",
+              "SS.SMu.OMu",
+              "IR.HIR"
+            ]
+          },
+          "OrigName": {
+            "dtype": "object",
+            "null_count": 2359,
+            "null_pct": 23.6,
+            "n_unique": 311,
+            "sample_values": [
+              "Subtidal course or mixed sediment",
+              "Infralittoral fine sand",
+              "Offshore circalittoral mud",
+              "High energy infralittoral rock",
+              "Offshore circalittoral sand"
+            ]
+          },
+          "OrigClass": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 12,
+            "sample_values": [
+              "MCZ broadscale habitat",
+              "EUNIS version 2007-11",
+              "Marine Habitat Classification for Britain and Ireland v22.04",
+              "Marine Habitat Classification for Britain and Ireland v97.06",
+              "Marine Habitat Classification for Britain and Ireland v15.03"
+            ]
+          },
+          "EUNISCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 273,
+            "sample_values": [
+              "A5.1/A5.4",
+              "A2.3",
+              "A5.23",
+              "A5.37",
+              "A3.1"
+            ]
+          },
+          "EUNISDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 3837,
+            "null_pct": 38.4,
+            "n_unique": 140,
+            "sample_values": [
+              "2025-02-25 00:00:00+00:00",
+              "2006-09-26 00:00:00+00:00",
+              "2017-01-01 00:00:00+00:00",
+              "2013-12-17 00:00:00+00:00",
+              "2014-07-21 00:00:00+00:00"
+            ]
+          },
+          "EUNISDetName": {
+            "dtype": "object",
+            "null_count": 2772,
+            "null_pct": 27.7,
+            "n_unique": 37,
+            "sample_values": [
+              "Joint Nature Conservation Committee",
+              "JNCC",
+              "Neil Golding",
+              "NatureScot",
+              "Centre for Environment, Fisheries and Aquaculture Sciences"
+            ]
+          },
+          "EUNISTranR": {
+            "dtype": "object",
+            "null_count": 137,
+            "null_pct": 1.4,
+            "n_unique": 10,
+            "sample_values": [
+              "=",
+              "S",
+              "<",
+              "~",
+              " "
+            ]
+          },
+          "EUNISTranC": {
+            "dtype": "object",
+            "null_count": 5669,
+            "null_pct": 56.7,
+            "n_unique": 330,
+            "sample_values": [
+              " ",
+              "equivalent to. Subsequently translated from EUNIS 04 to EUNIS 07",
+              "Simplified Folk triangle used for translation",
+              "One sample available from Envision data, class in report as muddy sand.  No samples tagged as Virgularia with this class.  Other samples range from mud to mixed sediment to muddy sand.  Earlier report class as circalittoral silty sand.",
+              "Merged with LR.LVer.Por (97.06 code). Subsequently translated from EUNIS 04 to EUNIS 07"
+            ]
+          },
+          "MHCCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 305,
+            "sample_values": [
+              "SS.SCS/SS.SMx",
+              "LS.LMu",
+              "SS.SSa.IFiSa",
+              "SS.SMu.OMu",
+              "IR.HIR"
+            ]
+          },
+          "MHCDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 19,
+            "sample_values": [
+              "2024-12-18 00:00:00+00:00",
+              "2025-03-10 00:00:00+00:00",
+              "2025-02-25 00:00:00+00:00",
+              "2025-03-21 00:00:00+00:00",
+              "2025-01-10 00:00:00+00:00"
+            ]
+          },
+          "MHCDetName": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "JNCC",
+              "Cefas"
+            ]
+          },
+          "MHCTranR": {
+            "dtype": "object",
+            "null_count": 10,
+            "null_pct": 0.1,
+            "n_unique": 7,
+            "sample_values": [
+              "=",
+              "<",
+              "#",
+              "S",
+              "~"
+            ]
+          },
+          "MHCTranC": {
+            "dtype": "object",
+            "null_count": 1797,
+            "null_pct": 18.0,
+            "n_unique": 174,
+            "sample_values": [
+              " ",
+              "Translated using EUNIS2007-JNCCv2204_v1_0",
+              "",
+              "Translated from MHC 9706 code (LR.ELR.MB) which was deduced from ORIG HAB",
+              "Translated using the EUNIS2007-JNCCv2204_v1_0 correlation spreadsheet"
+            ]
+          },
+          "MESH_conf": {
+            "dtype": "float64",
+            "null_count": 4763,
+            "null_pct": 47.6,
+            "n_unique": 58,
+            "sample_values": [
+              "83.0",
+              "37.0",
+              "49.0",
+              "0.0",
+              "74.0"
+            ]
+          },
+          "stp3_conf": {
+            "dtype": "float64",
+            "null_count": 5030,
+            "null_pct": 50.3,
+            "n_unique": 5,
+            "sample_values": [
+              "3.0",
+              "2.0",
+              "0.0",
+              "1.0",
+              "4.0"
+            ]
+          },
+          "EUNISL3": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 50,
+            "sample_values": [
+              "A5.1/A5.4",
+              "A2.3",
+              "A5.2",
+              "A5.3",
+              "A3.1"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 1,407,449 features"
+        ]
+      },
+      {
+        "layer": "UKASH_MosaicLocalisedMaps_v2025_1",
+        "status": "ok",
+        "error": null,
+        "format": "FileGDB",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 899864,
+        "bbox": {
+          "minx": -14.409424,
+          "miny": 48.115059,
+          "maxx": 2.89474,
+          "maxy": 60.862681
+        },
+        "fields": {
+          "SNCB_UID": {
+            "dtype": "object",
+            "null_count": 1098,
+            "null_pct": 11.0,
+            "n_unique": 159,
+            "sample_values": [
+              "GB-WLS2017-SM",
+              " ",
+              "D_00355",
+              "D_00457",
+              "D_00378"
+            ]
+          },
+          "EMODnetGUI": {
+            "dtype": "object",
+            "null_count": 120,
+            "null_pct": 1.2,
+            "n_unique": 291,
+            "sample_values": [
+              "GB001115",
+              "GB000217",
+              "GB001113",
+              "GB000372",
+              "GB001516"
+            ]
+          },
+          "OrigCode": {
+            "dtype": "object",
+            "null_count": 2284,
+            "null_pct": 22.8,
+            "n_unique": 504,
+            "sample_values": [
+              "A4.2",
+              "EIR.KFaR.Ala.Myt",
+              "A5.25",
+              "A5.4",
+              " "
+            ]
+          },
+          "OrigName": {
+            "dtype": "object",
+            "null_count": 3190,
+            "null_pct": 31.9,
+            "n_unique": 335,
+            "sample_values": [
+              "Saltmarsh extent",
+              "Atlantic and Mediterranean moderate energy circalittoral rock",
+              "A5.25: Circalittoral fine sand",
+              "Subtidal Sand",
+              "Subtidal coarse sediment"
+            ]
+          },
+          "OrigClass": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 13,
+            "sample_values": [
+              "Ad hoc",
+              "EUNIS version 2007-11",
+              "Marine Habitat Classification for Britain and Ireland v97.06",
+              "MCZ broadscale habitat",
+              "Marine Habitat Classification for Britain and Ireland v04.05"
+            ]
+          },
+          "EUNISCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 296,
+            "sample_values": [
+              "A2.5",
+              "A4.2",
+              "A3.1111",
+              "A5.25",
+              "A5.4"
+            ]
+          },
+          "EUNISDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 6004,
+            "null_pct": 60.0,
+            "n_unique": 145,
+            "sample_values": [
+              "2025-02-12 00:00:00+00:00",
+              "2005-05-19 00:00:00+00:00",
+              "2014-07-22 00:00:00+00:00",
+              "2009-07-01 00:00:00+00:00",
+              "2006-09-29 00:00:00+00:00"
+            ]
+          },
+          "EUNISDetName": {
+            "dtype": "object",
+            "null_count": 4435,
+            "null_pct": 44.4,
+            "n_unique": 44,
+            "sample_values": [
+              "JNCC",
+              "Natalie Coltman",
+              "Joint Nature Conservation Committee",
+              "Centre for Environment, Fisheries and Aquaculture Sciences",
+              "Becky Seeley"
+            ]
+          },
+          "EUNISTranR": {
+            "dtype": "object",
+            "null_count": 221,
+            "null_pct": 2.2,
+            "n_unique": 7,
+            "sample_values": [
+              "=",
+              "S",
+              "<",
+              ">",
+              " "
+            ]
+          },
+          "EUNISTranC": {
+            "dtype": "object",
+            "null_count": 3152,
+            "null_pct": 31.5,
+            "n_unique": 413,
+            "sample_values": [
+              " ",
+              "equivalent to. Subsequently translated from EUNIS 04 to EUNIS 07",
+              "This life form category encompasses kelp forest from exposed and sheltered sites. Sea loch classifications SL32, SL35, SL36 and SL 39. Subsequently translated from EUNIS 04 to EUNIS 07",
+              "Report states medium to large boulders and bedrock, dominated by flustra plus tall, often thick, hydroid turf. 3 biol samples, 2 indicate IR, one as IMx. No kelp suggests that this is not in infralittoral zone?",
+              "Original biotope was split into two on basis of salinity regime in update to classification. We used a layer of areas of reduced salinity in Wales to identify variable salinity polygons and assigned the remainder, including this polygon, to A1.311"
+            ]
+          },
+          "MHCCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 312,
+            "sample_values": [
+              "LS.LMp.Sm",
+              "CR.MCR",
+              "IR.HIR.KFaR.Ala.Myt",
+              "SS.SSa.CFiSa",
+              "SS.SMx"
+            ]
+          },
+          "MHCDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 2,
+            "null_pct": 0.0,
+            "n_unique": 19,
+            "sample_values": [
+              "2025-02-12 00:00:00+00:00",
+              "2024-12-17 00:00:00+00:00",
+              "2025-02-04 00:00:00+00:00",
+              "2025-01-10 00:00:00+00:00",
+              "2025-03-10 00:00:00+00:00"
+            ]
+          },
+          "MHCDetName": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 2,
+            "sample_values": [
+              "JNCC",
+              "Cefas"
+            ]
+          },
+          "MHCTranR": {
+            "dtype": "object",
+            "null_count": 6,
+            "null_pct": 0.1,
+            "n_unique": 7,
+            "sample_values": [
+              "=",
+              "#",
+              ">",
+              "~",
+              "<"
+            ]
+          },
+          "MHCTranC": {
+            "dtype": "object",
+            "null_count": 2741,
+            "null_pct": 27.4,
+            "n_unique": 211,
+            "sample_values": [
+              "Translated using the EUNIS2007-JNCCv2204_v1_0 correlation spreadsheet",
+              " ",
+              "Translated using EUNIS2007-JNCCv2204_v1_0",
+              "Translated using MCZBSH_JNCCv2204_v1_0",
+              "Not enough information to translate directly from OrigCode/OrigName. Translated from EUNIScode instead."
+            ]
+          },
+          "MESH_conf": {
+            "dtype": "float64",
+            "null_count": 1964,
+            "null_pct": 19.6,
+            "n_unique": 58,
+            "sample_values": [
+              "82.0",
+              "42.0",
+              "86.0",
+              "77.0",
+              "71.0"
+            ]
+          },
+          "stp3_conf": {
+            "dtype": "float64",
+            "null_count": 2281,
+            "null_pct": 22.8,
+            "n_unique": 5,
+            "sample_values": [
+              "3.0",
+              "1.0",
+              "0.0",
+              "2.0",
+              "4.0"
+            ]
+          },
+          "EUNISL3": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 48,
+            "sample_values": [
+              "A2.5",
+              "A4.2",
+              "A3.1",
+              "A5.2",
+              "A5.4"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 899,864 features"
+        ]
+      },
+      {
+        "layer": "UKSeaMap_Habitats_Infill_v2025_1",
+        "status": "ok",
+        "error": null,
+        "format": "FileGDB",
+        "geometry_type": [
+          "MultiPolygon"
+        ],
+        "crs": "EPSG:4326",
+        "feature_count": 507585,
+        "bbox": {
+          "minx": -25.134449,
+          "miny": 47.4354,
+          "maxx": 3.39855,
+          "maxy": 63.886944
+        },
+        "fields": {
+          "SNCB_UID": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "UKSM2025"
+            ]
+          },
+          "EMODnetGUI": {
+            "dtype": "object",
+            "null_count": 10000,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "Polygon": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 10000,
+            "sample_values": [
+              "265660",
+              "141932",
+              "370424",
+              "88195",
+              "92075"
+            ]
+          },
+          "OrigCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 65,
+            "sample_values": [
+              "SS.SCS.OCS",
+              "SS.SCS.CCS",
+              "IR.MIR",
+              "SS.SSa.OSa",
+              "M.ArMB.Mx"
+            ]
+          },
+          "OrigName": {
+            "dtype": "object",
+            "null_count": 746,
+            "null_pct": 7.5,
+            "n_unique": 56,
+            "sample_values": [
+              "Offshore circalittoral coarse sediment",
+              "Circalittoral coarse sediment",
+              "Moderate energy infralittoral rock",
+              "Offshore circalittoral sand",
+              "Arctic mid bathyal mixed sediment"
+            ]
+          },
+          "OrigClass": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "Marine Habitat Classification for Britain and Ireland v22.04"
+            ]
+          },
+          "EUNISCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 37,
+            "sample_values": [
+              "A5.15",
+              "A5.14",
+              "A3.2",
+              "A5.27",
+              "A6.2"
+            ]
+          },
+          "EUNISDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2025-02-25 00:00:00+00:00"
+            ]
+          },
+          "EUNISDetName": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "JNCC"
+            ]
+          },
+          "EUNISTranR": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 5,
+            "sample_values": [
+              "=",
+              "<",
+              "=\u00a0",
+              "<\u00a0",
+              "~"
+            ]
+          },
+          "EUNISTranC": {
+            "dtype": "object",
+            "null_count": 10000,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "MHCCode": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 65,
+            "sample_values": [
+              "SS.SCS.OCS",
+              "SS.SCS.CCS",
+              "IR.MIR",
+              "SS.SSa.OSa",
+              "M.ArMB.Mx"
+            ]
+          },
+          "MHCDetDate": {
+            "dtype": "datetime64[ms, UTC]",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "2025-02-25 00:00:00+00:00"
+            ]
+          },
+          "MHCDetName": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "JNCC"
+            ]
+          },
+          "MHCTranR": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              "="
+            ]
+          },
+          "MHCTranC": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 1,
+            "sample_values": [
+              ""
+            ]
+          },
+          "MESH_conf": {
+            "dtype": "float64",
+            "null_count": 10000,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "stp3_conf": {
+            "dtype": "float64",
+            "null_count": 10000,
+            "null_pct": 100.0,
+            "n_unique": 0,
+            "sample_values": []
+          },
+          "EUNISL3": {
+            "dtype": "object",
+            "null_count": 0,
+            "null_pct": 0.0,
+            "n_unique": 17,
+            "sample_values": [
+              "A5.1",
+              "A3.2",
+              "A5.2",
+              "A6.2",
+              "A5.3"
+            ]
+          }
+        },
+        "notes": [
+          "Field stats sampled from 10,000 of 507,585 features"
+        ]
+      }
+    ],
+    "error": null
+  }
+]
