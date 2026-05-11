@@ -131,7 +131,8 @@ BEDROCK_GPKG = Path(
 # which can produce unrealistically deep values.  We clamp to this limit
 # so intertidal cells never appear deeper than the lowest astronomical
 # tide water level.
-INTERTIDAL_DEPTH_CAP_M = -4.0
+# NOTE: depth_m is stored positive-downward (4 m depth → +4.0).
+INTERTIDAL_DEPTH_CAP_M = 4.0
 
 # Bathymetry confidence by source
 BATHY_CONFIDENCE = {
@@ -769,7 +770,7 @@ def fill_bathymetry(df: pd.DataFrame, gradient_neighbours: int, workers: int) ->
             k_fit = np.where(den > 0, num / den, np.nan)
 
         predicted = k_fit * gap_hwm
-        grad_ok   = (n_valid >= GRADIENT_MIN_DONORS) & np.isfinite(predicted) & (predicted >= 0)
+        grad_ok   = (n_valid >= GRADIENT_MIN_DONORS) & np.isfinite(predicted) & (predicted > 0)
 
         fill_depth  = np.where(grad_ok, predicted, nn_depth).astype(np.float32)
         fill_source = np.where(grad_ok, "depth_gradient", NN_SOURCE_LABEL)

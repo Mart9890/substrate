@@ -21,9 +21,7 @@ The grid is built by combining five public-domain geospatial datasets into a sin
 ├── coverage_completeness.py       # Per-zone coverage statistics
 ├── spearo_coastal_grid_100m_completeness.json  # Coverage audit output
 ├── diagnose_grid.py               # Data quality / consistency auditor
-├── fill_coastal_grid.py           # (see above)
-├── query_grid.py                  # (see above)
-├── tree.txt                       # Raw data directory listing
+└── tree.txt                       # Raw data directory listing
 └── raw/                           # Source datasets (not tracked in git)
     ├── bgs-offshore-sbs-250k-geopackage/
     ├── offshore-bedrock-250k-geopackage/
@@ -77,17 +75,17 @@ When multiple substrate datasets cover the same cell, priority is: BGS observed 
 
 ## build_coastal_grid.py
 
-Builds the raw grid from the source datasets. The pipeline is raster-first: all vector geometry is rasterised to the output resolution once during Stage 3, and all subsequent stages operate on integer numpy array lookups with no spatial joins at runtime. Each stage writes its results to a `cache/` directory so individual stages can be re-run without repeating upstream work.
+Builds the raw grid from the source datasets. The pipeline constructs the grid in five stages, with each stage writing its results to a `cache/` directory so individual stages can be re-run without repeating upstream work.
 
 ### Stages
 
 | Stage | Task | Approx. time | Cached? |
 |-------|------|-------------|---------|
-| 1 | Rasterise the OS High Water Line to a BNG grid | ~10 s | Once |
+| 1 | Rasterise the OS High Water Line to a BNG grid (falling back to DEFR foreshore polygon boundary) clipped to England | ~10 s | Once |
 | 2 | Generate the strip mask (HWM → 1 nm) and compute Euclidean distance-to-HWM via EDT | ~15 s | Once |
-| 3 | Rasterise each source dataset to integer-coded NPZ + lookup JSON | slow | Once per dataset |
-| 4 | Build the tile index — strip cells × raster lookups → 100 km tile NPZ files | ~60 s | Once |
-| 5 | Export — tile NPZs → normalised Parquet + SQLite with indexes and views | ~30 s | Always |
+| 3 | Load and clip all five source datasets; cache as GeoParquet | slow | Once per dataset |
+| 4 | Spatial joins + raster sampling — each cell centroid joined to the five vector layers and sampled against both EMODnet rasters | ~60 s | Once |
+| 5 | Normalisation + export — raw joined fields collapsed into canonical schema; written to Parquet and SQLite with indexes and views | ~30 s | Always |
 
 Stage 3 is the expensive step on first run (several minutes per dataset). Subsequent runs skip any stage whose cache files are already present unless `--force` is passed.
 
@@ -154,7 +152,7 @@ Reads the raw Parquet produced by `build_coastal_grid.py` and resolves all remai
 
 **Pass 5 — Percentage columns.** Computes `pct_rock` from the Folk-code heuristic table or as the residual of `100 − G − S − M`. Normalises all four percentage columns so they sum to 100 for rows that have at least one positive value.
 
-**Pass 6 — Human-readable name enrichment.** Populates `eunis_name` from an embedded 167-entry EUNIS 2007-11 habitat dictionary, with ancestor fallback for unmapped deep codes. Populates `bedrock_description` by joining `bedrock_lex_rcs` against the BGS Offshore Bedrock GeoPackage attribute table.
+**Pass 6 — Human-readable name enrichment.** Populates `eunis_name` from an embedded 167-entry EUNIS 2007-11 habitat dictionary, with ancestor fallback for unmapped deep codes. Populates `bedrock_description` by joining `bedrock_lex_rcs` against the BGS Offshore Bedrock GeoPackage attribute table (requires `--bedrock-gpkg`; if omitted, `bedrock_description` remains null).
 
 ### Usage
 
@@ -167,6 +165,10 @@ python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet --workers 24
 
 # Write output to a specific directory
 python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet --output-dir out/
+
+# Populate bedrock_description (requires path to BGS Offshore Bedrock GeoPackage)
+python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet \
+    --bedrock-gpkg raw/offshore-bedrock-250k-geopackage/BGS_BedrockOffshore_250k_WGS84_v3.gpkg
 ```
 
 The script is safe to re-run on an already-filled file; it strips any existing `_filled` suffix before naming the output.
@@ -209,8 +211,9 @@ pip install geopandas pyogrio rasterio numpy shapely pyproj pandas tqdm pyarrow 
 # 3. Build the raw grid
 python build_coastal_grid.py --root raw
 
-# 4. Gap-fill
-python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet
+# 4. Gap-fill (add --bedrock-gpkg to populate bedrock_description)
+python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet \
+    --bedrock-gpkg raw/offshore-bedrock-250k-geopackage/BGS_BedrockOffshore_250k_WGS84_v3.gpkg
 
 # 5. Point lookup
 python query_grid.py --lat 50.614 --lon -1.195 --db output/spearo_coastal_grid_100m.db
@@ -230,6 +233,18 @@ sqlite3 output/spearo_coastal_grid_100m.db "SELECT * FROM coverage"
 `diagnose_grid.py` runs a consistency audit on a filled or unfilled Parquet: null counts, Folk→substrate mapping coverage, hardness/substrate disagreements, pct-column anomalies, and cross-field spot-checks. Useful after any change to the build or fill pipeline.
 
 `query_grid.py` is a lightweight CLI tool that takes a lat/lon and returns the row for the nearest cell.
+
+---
+
+## Zone classification
+
+Each cell is assigned to one of three coastal zones based on distance from the High Water Mark:
+
+| Zone | Distance from HWM | Description |
+|------|-------------------|-------------|
+| `intertidal` | Within DEFR foreshore polygon | Exposed at low tide; covered by DEFR foreshore data |
+| `nearshore` | 0 – 500 m | Shallow subtidal strip |
+| `offshore` | 500 – 1,852 m | Outer coastal band to 1 nm |
 
 ---
 

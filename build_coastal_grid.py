@@ -524,8 +524,10 @@ def stage1_coastline(root: Path, cache_dir: Path, cell_size: int) -> tuple[gpd.G
         log("  Building strip polygon (simplify + parallel buffer)...", indent=1)
         t1 = time.time()
 
-        # Simplify individual features before buffering — much cheaper than
-        # simplifying the merged MultiLineString afterward
+        # Buffer each HWL feature outward by STRIP_M, then subtract a small
+        # inward buffer to keep the strip seaward of the HWM.
+        # This avoids polygonize(), which only works on closed rings and misses
+        # mainland England (open polylines), producing far too few land polygons.
         log(f"    Simplifying {n_feats:,} features (50m tolerance)...", indent=2)
         t2 = time.time()
         simple_geoms = [g.simplify(50, preserve_topology=True)
@@ -636,18 +638,20 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
         # Rebuild using the same parallel-buffer approach as Stage 1
         log("  Strip polygon not cached — rebuilding (parallel buffer)...", indent=2)
         if coast_gdf is not None:
+            import os as _os2
             geoms        = list(coast_gdf.geometry)
+            n_workers    = min(16, _os2.cpu_count() or 4)
             log(f"    Simplifying {len(geoms):,} features (50m tolerance)...", indent=3)
             simple_geoms = [g.simplify(50, preserve_topology=True) for g in geoms]
-            log(f"    Buffering outer (+{STRIP_M}m) across workers...", indent=3)
-            outer = _parallel_buffer(simple_geoms, STRIP_M, resolution=4)
+            log(f"    Buffering outer (+{STRIP_M}m) across {n_workers} workers...", indent=3)
+            outer = _parallel_buffer(simple_geoms, STRIP_M, resolution=4,
+                                     n_workers=n_workers)
             log(f"    Buffering inner (-5m)...", indent=3)
-            inner = _parallel_buffer(simple_geoms, -5, resolution=4)
+            inner = _parallel_buffer(simple_geoms, -5, resolution=4,
+                                     n_workers=n_workers)
             log(f"    Computing difference...", indent=3)
             strip = outer.difference(inner)
-            # Save for future Stage 2 runs
             import geopandas as _gpd
-            from shapely.geometry import mapping as _mapping
             _gpd.GeoDataFrame(geometry=[strip], crs=f"EPSG:{EPSG_BNG}").to_file(
                 strip_gpkg, driver="GPKG"
             )
@@ -665,8 +669,20 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
             all_touched=False,
         )
     else:
-        # approximate: anything within STRIP_M of a coast pixel
-        log("  No strip polygon available — using EDT fallback", indent=2)
+        # No strip polygon available — approximate seaward-only mask via EDT.
+        # The coast_arr raster marks the HWM pixels.  We want cells that are
+        # within STRIP_M of the HWM *and* on the seaward side.  We approximate
+        # the seaward side as cells where the distance-to-coast in the seaward
+        # direction is less than the distance in the landward direction, which
+        # is equivalent to: the nearest HWM pixel is closer than any land pixel.
+        # Since we don't have a separate land raster here, we use the simpler
+        # heuristic: treat cells with dist_hwm <= STRIP_M as candidate, then
+        # exclude the inland half by keeping only cells whose centroid northing
+        # places them seaward of the nearest HWM pixel (not available here).
+        # Best available fallback: use full EDT strip — a rebuild via stage1
+        # will correct this properly.
+        log("  ⚠ No strip polygon available — EDT fallback (run --force stage1 to fix)",
+            indent=2)
         dist_tmp   = distance_transform_edt(1 - coast_arr).astype(np.float32) * cell_size
         strip_mask = (dist_tmp <= STRIP_M).astype(np.uint8)
 
@@ -864,6 +880,16 @@ def stage3_rasters(root: Path, cache_dir: Path,
         elif cfg["type"] == "raster_float":
             log(f"    Resampling {src_path.name} → {cell_size}m grid...", indent=2)
             arr = _resample_raster_to_meta(src_path, meta)
+
+            # EMODnet bathymetry uses negative-below-sea-level convention
+            # (e.g. 10 m water depth → -10.0).  The grid schema and fill
+            # pipeline both expect positive-downward (10 m depth → +10.0).
+            # Negate depth here so the convention is consistent from storage
+            # onward.  Slope is a magnitude — no sign change needed.
+            if key == "emodnet_depth":
+                arr = np.where(np.isfinite(arr), -arr, np.nan).astype(np.float32)
+                log(f"    (negated: EMODnet → positive-downward)", indent=2)
+
             valid = int(np.isfinite(arr).sum())
             np.savez_compressed(npz_out, data=arr)
             log(f"    ✓ {valid:,} valid cells", indent=2, elapsed=time.time()-t0)
