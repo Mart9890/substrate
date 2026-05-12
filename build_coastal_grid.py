@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_coastal_grid.py  —  Spearo coastal substrate grid builder  (v2)
+build_coastal_grid.py  —  Spearo coastal substrate grid builder  (v3)
 ======================================================================
 Raster-first, tree-indexed pipeline.  All geometry work happens ONCE
 during dataset rasterisation (Stage 3); every subsequent build stage
@@ -14,13 +14,31 @@ Architecture
   Stage 4  Tree index            Strip cells × raster lookup → tile NPZ  ~60s  once per cell size
   Stage 5  Export                Tile NPZ → SQLite + Parquet              ~30s  always (fast)
 
+v3 changes vs v2
+----------------
+  Strip polygon is now SEAWARD-ONLY.  The old approach buffered the HWL
+  symmetrically (±STRIP_M) then subtracted only a 5 m inner notch, leaving
+  a ribbon of inland cells equal in width to the seaward strip.
+
+  The fix: polygonize the OS HWL closed rings into a land polygon, then
+  subtract the full land polygon from the outer buffer:
+
+      outer = buffer(HWL_features, +STRIP_M)   # symmetric, as before
+      strip = outer.difference(land_polygon)    # subtract ALL land → seaward only
+
+  The OS HWL diagnostic confirmed 5,231 closed rings, 0 open chains,
+  0 dangling endpoints — polygonization is safe and complete.
+
+  The land polygon is cached as land_polygon_{cs}m.gpkg in stage1_coastline/.
+
 Cache layout (per cell size, e.g. 100m)
 -----------------------------------------
   cache/
     stage1_coastline/
       coastline_raster_{RES}m.npz          ← binary BNG raster of HWM line
+      land_polygon_{RES}m.gpkg             ← polygonized land mask  [NEW v3]
     stage2_strip/
-      strip_mask_{RES}m.npz                ← bool mask, cells inside HWM→1nm band
+      strip_mask_{RES}m.npz                ← bool mask, cells inside HWM→STRIP_M band
       dist_hwm_{RES}m.npz                  ← float32 metres to nearest HWM pixel
       raster_meta_{RES}m.json              ← origin, cell_size, n_rows, n_cols
     stage3_rasters/
@@ -391,7 +409,7 @@ class RasterMeta:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STAGE 1 — Coastline raster
+# STAGE 1 helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _buf_geom(args):
@@ -428,22 +446,92 @@ def _parallel_buffer(geoms, dist: float, resolution: int = 4,
     return _uu(buffered)
 
 
+def _build_land_polygon(coast_geom, cache_dir: Path, cell_size: int) -> object:
+    """
+    Polygonize the OS HWL closed rings into a single land polygon and cache it.
+
+    The OS HWL diagnostic confirmed:
+      - 5,231 closed rings, 0 open chains, 0 dangling endpoints
+    Polygonization is therefore safe and produces a complete land mask.
+
+    Filters out slivers < 1 km² (polygonizer artefacts), then unions all
+    valid polygons into one MultiPolygon.
+
+    Cached as land_polygon_{cell_size}m.gpkg in stage1_coastline/.
+    Returns a Shapely geometry (Polygon or MultiPolygon) in EPSG:27700.
+    """
+    from shapely.ops import polygonize_full, linemerge, unary_union as _uu
+
+    s1_dir    = cache_dir / "stage1_coastline"
+    land_gpkg = s1_dir / f"land_polygon_{cell_size}m.gpkg"
+
+    if land_gpkg.exists() and land_gpkg.stat().st_size > 0:
+        log(f"  ✓ Cached land polygon — loading {land_gpkg.name}...", indent=2)
+        t1   = time.time()
+        land = gpd.read_file(land_gpkg).geometry.iloc[0]
+        log(f"    Loaded  ({time.time()-t1:.1f}s)", indent=2)
+        return land
+
+    log("  Polygonizing HWL into land polygon...", indent=2)
+    t1 = time.time()
+
+    merged = linemerge(coast_geom)
+    result, dangles, cut_edges, invalid = polygonize_full(merged)
+
+    polys = (list(result.geoms) if hasattr(result, "geoms")
+             else ([result] if not result.is_empty else []))
+
+    log(f"    Polygonizer: {len(polys):,} raw polygons  ({time.time()-t1:.1f}s)",
+        indent=3)
+
+    if not polys:
+        raise RuntimeError(
+            "Polygonization produced no polygons — HWL may not be fully closed. "
+            "Run check_hwl_completeness.py --polygonize to diagnose."
+        )
+
+    # Filter slivers (< 1 km²)
+    MIN_AREA_M2  = 1_000_000
+    polys_valid  = [p for p in polys if p.area >= MIN_AREA_M2]
+    log(f"    After sliver filter (≥1 km²): {len(polys_valid):,} polygons "
+        f"({len(polys)-len(polys_valid):,} removed)", indent=3)
+
+    if not polys_valid:
+        raise RuntimeError(
+            "No polygons ≥ 1 km² after polygonization — unexpected result."
+        )
+
+    t2   = time.time()
+    land = _uu(polys_valid)
+    log(f"    Union done  ({time.time()-t2:.1f}s)  "
+        f"area={land.area/1e6:,.0f} km²", indent=3)
+
+    t2 = time.time()
+    gpd.GeoDataFrame({"id": [1]}, geometry=[land], crs=EPSG_BNG).to_file(
+        land_gpkg, driver="GPKG"
+    )
+    log(f"    Cached → {land_gpkg.name}  "
+        f"({land_gpkg.stat().st_size/1_048_576:.1f} MB)  "
+        f"({time.time()-t2:.1f}s)", indent=3, elapsed=time.time()-t1)
+
+    return land
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 1 — Coastline raster
+# ─────────────────────────────────────────────────────────────────────────────
+
 def stage1_coastline(root: Path, cache_dir: Path, cell_size: int) -> tuple[gpd.GeoDataFrame, np.ndarray, RasterMeta]:
     """
-    Load OS HWL (or DEFR fallback), compute the strip polygon, build the
-    shared RasterMeta, and save a binary raster of the coastline pixels.
+    Load OS HWL (or DEFR fallback), compute the seaward-only strip polygon,
+    build the shared RasterMeta, and save a binary raster of the coastline pixels.
 
     Cache layout (inside cache/stage1_coastline/):
-      os_coastline_bng.gpkg          — raw features reprojected to BNG  (load cache)
-      strip_polygon_{cs}m.gpkg       — pre-built strip polygon           (buffer cache)
-      coastline_raster_{cs}m.npz     — uint8 raster of HWM pixels        (raster cache)
+      os_coastline_bng.gpkg          — raw features reprojected to BNG
+      land_polygon_{cs}m.gpkg        — polygonized land mask  [v3]
+      strip_polygon_{cs}m.gpkg       — seaward-only strip polygon  [v3 fix]
+      coastline_raster_{cs}m.npz     — uint8 raster of HWM pixels
       (raster_meta_{cs}m.json lives in stage2_strip/ for legacy reasons)
-
-    On a cold run the expensive work is:
-      1. unary_union of 14k line features  (~20s, once)
-      2. parallel buffer of individual geoms (~10-30s with multiprocessing, once)
-      3. rasterio.features.rasterize        (~5s, once)
-    All three are fully cached; subsequent runs skip straight to the return.
 
     Returns: (coast_gdf, coast_raster, meta)
     """
@@ -487,7 +575,6 @@ def stage1_coastline(root: Path, cache_dir: Path, cell_size: int) -> tuple[gpd.G
         raw = bbox_gdf(raw)
         log(f"    {len(raw):,} features loaded  ({time.time()-t1:.1f}s)", indent=2)
         source = "OS_HWL"
-        # Save reprojected features for future runs
         log("  Saving coastline gpkg cache...", indent=1)
         t1 = time.time()
         raw["source"] = source
@@ -514,20 +601,30 @@ def stage1_coastline(root: Path, cache_dir: Path, cell_size: int) -> tuple[gpd.G
     coast_geom = unary_union(coast_gdf.geometry)
     log(f"    Done  ({time.time()-t1:.1f}s)", indent=2)
 
-    # ── Step 3: build strip polygon — cached if already done ──────────────────
+    # ── Step 3: build seaward-only strip polygon ───────────────────────────────
+    #
+    # v3 FIX: The old approach did outer.difference(inner_5m), which left a
+    # symmetric ribbon of inland cells equal in width to the seaward strip.
+    #
+    # The correct approach:
+    #   1. Polygonize the HWL closed rings → land polygon
+    #   2. outer = buffer(HWL_features, +STRIP_M)   — symmetric, as before
+    #   3. strip = outer.difference(land_polygon)    — subtract ALL land
+    #
+    # This gives a true seaward-only strip, 0–STRIP_M from the HWM.
     if strip_gpkg.exists() and strip_gpkg.stat().st_size > 0:
         log(f"  ✓ Cached strip polygon — loading {strip_gpkg.name}...", indent=1)
         t1    = time.time()
         strip = gpd.read_file(strip_gpkg).geometry.iloc[0]
         log(f"    Loaded  ({time.time()-t1:.1f}s)", indent=2)
     else:
-        log("  Building strip polygon (simplify + parallel buffer)...", indent=1)
+        log("  Building seaward-only strip polygon...", indent=1)
         t1 = time.time()
 
-        # Buffer each HWL feature outward by STRIP_M, then subtract a small
-        # inward buffer to keep the strip seaward of the HWM.
-        # This avoids polygonize(), which only works on closed rings and misses
-        # mainland England (open polylines), producing far too few land polygons.
+        # Step 3a: polygonize HWL → land polygon (cached separately)
+        land = _build_land_polygon(coast_geom, cache_dir, cell_size)
+
+        # Step 3b: outer buffer (+STRIP_M, symmetric — land side trimmed next)
         log(f"    Simplifying {n_feats:,} features (50m tolerance)...", indent=2)
         t2 = time.time()
         simple_geoms = [g.simplify(50, preserve_topology=True)
@@ -541,18 +638,13 @@ def stage1_coastline(root: Path, cache_dir: Path, cell_size: int) -> tuple[gpd.G
                                  n_workers=n_workers)
         log(f"    Outer buffer done  ({time.time()-t2:.1f}s)", indent=2)
 
-        log(f"    Buffering inner (-5m)...", indent=2)
+        # Step 3c: subtract land polygon → seaward-only strip
+        log("    Subtracting land polygon → seaward-only strip...", indent=2)
         t2    = time.time()
-        inner = _parallel_buffer(simple_geoms, -5, resolution=4,
-                                 n_workers=n_workers)
-        log(f"    Inner buffer done  ({time.time()-t2:.1f}s)", indent=2)
-
-        log("    Computing difference (outer − inner)...", indent=2)
-        t2    = time.time()
-        strip = outer.difference(inner)
+        strip = outer.difference(land)
         log(f"    Difference done  ({time.time()-t2:.1f}s)", indent=2)
 
-        # Cache the strip polygon
+        # Cache
         t2 = time.time()
         gpd.GeoDataFrame({"id": [1]}, geometry=[strip], crs=EPSG_BNG).to_file(
             strip_gpkg, driver="GPKG")
@@ -599,12 +691,16 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
                  cell_size: int) -> tuple[np.ndarray, np.ndarray]:
     """
     Returns (strip_mask, dist_hwm) — both shape (n_rows, n_cols).
-    strip_mask: uint8, 1 = cell centre is inside HWM→1nm band
-    dist_hwm:   float32, metres to nearest HWM pixel
+    strip_mask: uint8, 1 = cell centre is inside the seaward HWM→STRIP_M band
+    dist_hwm:   float32, metres to nearest HWM pixel (Euclidean, always >= 0)
+
+    The strip is seaward-only: the land polygon (polygonized from the fully-closed
+    HWL rings) is subtracted from the symmetric outer buffer, so no inland cells
+    are included.
     """
-    s2_dir    = cache_dir / "stage2_strip"
-    mask_out  = s2_dir / f"strip_mask_{cell_size}m.npz"
-    dist_out  = s2_dir / f"dist_hwm_{cell_size}m.npz"
+    s2_dir   = cache_dir / "stage2_strip"
+    mask_out = s2_dir / f"strip_mask_{cell_size}m.npz"
+    dist_out = s2_dir / f"dist_hwm_{cell_size}m.npz"
 
     if cached(mask_out, f"strip_mask_{cell_size}m.npz") and dist_out.exists():
         log(f"✓ Cached: dist_hwm_{cell_size}m.npz", indent=1)
@@ -615,30 +711,31 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
     section("Stage 2: Strip mask + distance raster", 2, 5)
     t0 = time.time()
 
-    # ── Step 1: get strip polygon ─────────────────────────────────────────────
-    # Stage 1 already built and cached the strip polygon — reuse it directly.
-    # Only fall back to rebuilding if the gpkg is missing (shouldn't happen on
-    # a normal run, but handles --force stage2 without --force stage1).
-    log("Building strip polygon...", indent=1)
+    # ── Step 1: load strip polygon from Stage 1 cache ─────────────────────────
+    # Stage 1 always builds and caches the strip polygon before Stage 2 runs.
+    # The fallback path handles --force stage2 without --force stage1.
+    log("Loading strip polygon...", indent=1)
     t1 = time.time()
 
     s1_dir     = cache_dir / "stage1_coastline"
     strip_gpkg = s1_dir / f"strip_polygon_{cell_size}m.gpkg"
-
-    strip = None
+    strip      = None
 
     if strip_gpkg.exists() and strip_gpkg.stat().st_size > 0:
         log(f"  Loading cached strip polygon from Stage 1...", indent=2)
         strip_gdf = gpd.read_file(strip_gpkg)
         strip     = strip_gdf.geometry.iloc[0] if len(strip_gdf) > 0 else None
         if strip is not None:
-            log(f"  Loaded strip polygon  ({time.time()-t1:.1f}s)", indent=2)
+            log(f"  Loaded  ({time.time()-t1:.1f}s)", indent=2)
 
     if strip is None:
-        # Rebuild using the same parallel-buffer approach as Stage 1
-        log("  Strip polygon not cached — rebuilding (parallel buffer)...", indent=2)
+        # Rebuild seaward-only strip — same approach as Stage 1.
+        log("  Strip polygon not cached — rebuilding (seaward-only)...", indent=2)
         if coast_gdf is not None:
             import os as _os2
+            coast_geom_s2 = unary_union(coast_gdf.geometry)
+            land          = _build_land_polygon(coast_geom_s2, cache_dir, cell_size)
+
             geoms        = list(coast_gdf.geometry)
             n_workers    = min(16, _os2.cpu_count() or 4)
             log(f"    Simplifying {len(geoms):,} features (50m tolerance)...", indent=3)
@@ -646,59 +743,50 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
             log(f"    Buffering outer (+{STRIP_M}m) across {n_workers} workers...", indent=3)
             outer = _parallel_buffer(simple_geoms, STRIP_M, resolution=4,
                                      n_workers=n_workers)
-            log(f"    Buffering inner (-5m)...", indent=3)
-            inner = _parallel_buffer(simple_geoms, -5, resolution=4,
-                                     n_workers=n_workers)
-            log(f"    Computing difference...", indent=3)
-            strip = outer.difference(inner)
-            import geopandas as _gpd
-            _gpd.GeoDataFrame(geometry=[strip], crs=f"EPSG:{EPSG_BNG}").to_file(
+            log(f"    Subtracting land polygon → seaward-only strip...", indent=3)
+            strip = outer.difference(land)
+
+            gpd.GeoDataFrame({"id": [1]}, geometry=[strip], crs=EPSG_BNG).to_file(
                 strip_gpkg, driver="GPKG"
             )
             log(f"    Strip polygon cached → {strip_gpkg.name}", indent=3)
         else:
-            strip = None
+            raise RuntimeError(
+                "No strip polygon available and no coast_gdf to rebuild it. "
+                "Run with --force stage1 to rebuild from scratch."
+            )
 
-    if strip is not None:
-        strip_mask = rasterio.features.rasterize(
-            [(strip, 1)],
-            out_shape=(meta.n_rows, meta.n_cols),
-            transform=meta.rasterio_transform(),
-            fill=0,
-            dtype=np.uint8,
-            all_touched=False,
-        )
-    else:
-        # No strip polygon available — approximate seaward-only mask via EDT.
-        # The coast_arr raster marks the HWM pixels.  We want cells that are
-        # within STRIP_M of the HWM *and* on the seaward side.  We approximate
-        # the seaward side as cells where the distance-to-coast in the seaward
-        # direction is less than the distance in the landward direction, which
-        # is equivalent to: the nearest HWM pixel is closer than any land pixel.
-        # Since we don't have a separate land raster here, we use the simpler
-        # heuristic: treat cells with dist_hwm <= STRIP_M as candidate, then
-        # exclude the inland half by keeping only cells whose centroid northing
-        # places them seaward of the nearest HWM pixel (not available here).
-        # Best available fallback: use full EDT strip — a rebuild via stage1
-        # will correct this properly.
-        log("  ⚠ No strip polygon available — EDT fallback (run --force stage1 to fix)",
-            indent=2)
-        dist_tmp   = distance_transform_edt(1 - coast_arr).astype(np.float32) * cell_size
-        strip_mask = (dist_tmp <= STRIP_M).astype(np.uint8)
-
+    # ── Step 2: rasterise strip polygon → strip mask ──────────────────────────
+    log("Rasterising strip polygon...", indent=1)
+    t1 = time.time()
+    strip_mask = rasterio.features.rasterize(
+        [(strip, 1)],
+        out_shape=(meta.n_rows, meta.n_cols),
+        transform=meta.rasterio_transform(),
+        fill=0,
+        dtype=np.uint8,
+        all_touched=False,
+    )
     n_cells = int(strip_mask.sum())
-    log(f"  {n_cells:,} cells in strip", indent=2, elapsed=time.time()-t1)
+    log(f"  {n_cells:,} cells in strip  ({time.time()-t1:.1f}s)", indent=2)
 
-    # Distance-to-HWM via EDT
+    # ── Step 3: distance-to-HWM via EDT ───────────────────────────────────────
+    # Runs over the full raster (both sides of HWL) — this is correct.
+    # dist_hwm is the unsigned Euclidean distance to the nearest HWM pixel.
+    # Used for zone classification and confidence decay.
+    # The strip_mask enforces seaward-only selection, so dist_hwm values for
+    # any inland pixels are never surfaced in the output.
     log("Computing distance-to-HWM (EDT)...", indent=1)
     t1 = time.time()
     dist_hwm = (distance_transform_edt(1 - coast_arr) * cell_size).astype(np.float32)
-    log(f"  Done", indent=2, elapsed=time.time()-t1)
+    log(f"  Done  ({time.time()-t1:.1f}s)", indent=2)
 
+    # ── Step 4: save ──────────────────────────────────────────────────────────
     s2_dir.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(mask_out, mask=strip_mask)
     np.savez_compressed(dist_out, dist=dist_hwm)
-    log(f"✓ Strip mask + distance saved  ({n_cells:,} cells)", indent=1, elapsed=time.time()-t0)
+    log(f"✓ Strip mask + distance saved  ({n_cells:,} cells)",
+        indent=1, elapsed=time.time()-t0)
 
     return strip_mask, dist_hwm
 
@@ -1345,7 +1433,7 @@ def stage5_export(idx_dir: Path, out_dir: Path,
     ]:
         cur.execute(sql)
 
-    # Coverage view — trivial with the tree index
+    # Coverage view
     cur.execute(f"""
         CREATE VIEW IF NOT EXISTS coverage AS
         SELECT
@@ -1373,7 +1461,6 @@ def stage5_export(idx_dir: Path, out_dir: Path,
         FROM coastal_grid
     """)
 
-    # Build stats table
     cur.execute("""
         CREATE TABLE IF NOT EXISTS build_stats AS
         SELECT
@@ -1488,7 +1575,7 @@ def _apply_force(force: str, cache_dir: Path, out_dir: Path, cell_size: int):
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Spearo coastal substrate grid builder (raster-first, tree-indexed).",
+        description="Spearo coastal substrate grid builder (v3 — seaward-only strip).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     p.add_argument("--root",       default="raw",    help="Raw datasets directory")
@@ -1517,14 +1604,14 @@ def main():
 
     header = [
         "=" * 60,
-        "Spearo Coastal Grid Builder  (v2 — raster-first)",
+        "Spearo Coastal Grid Builder  (v3 — seaward-only strip)",
         "=" * 60,
         f"  Root       : {root.resolve()}",
         f"  Cache      : {cache_dir.resolve()}",
         f"  Output     : {out_dir.resolve()}",
         f"  Log        : {_LOG.log_path}",
         f"  Cell size  : {cs}m",
-        f"  Strip      : HWM -> {STRIP_M}m",
+        f"  Strip      : HWM -> {STRIP_M}m (seaward only)",
         f"  Tile size  : {TILE_SIZE_M//1000}km × {TILE_SIZE_M//1000}km",
         f"  Force      : {args.force or 'none (use cache)'}",
     ]

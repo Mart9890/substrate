@@ -13,6 +13,8 @@ The grid is built by combining five public-domain geospatial datasets into a sin
 ├── build_coastal_grid.py          # Stage 1–5 grid builder
 ├── fill_coastal_grid.py           # Gap-fill pass (produces _filled.parquet)
 ├── query_grid.py                  # CLI point-lookup tool
+├── check_hwl_completeness.py      # OS HWL topology audit (run before build)
+├── verify_strip_placement.py      # Confirms strip is seaward-only (run after build)
 ├── spearo_coastal_grid_schema.md  # Full column reference for the raw grid
 ├── spearo_coastal_grid_100m_filled_README.md  # Column reference for the filled grid
 ├── inspect_datasets.py            # One-off dataset schema auditor
@@ -28,7 +30,8 @@ The grid is built by combining five public-domain geospatial datasets into a sin
     ├── Predictive_SBS_UK_V1_GeoPackage/
     ├── UKASH_CombinedMap_v2025/
     ├── Intertidal Substrate Foreshore (England and Scotland)/
-    └── ...
+    ├── emodnet_bathymetry/
+    └── os_coastline/
 ```
 
 Outputs land in `output/` (also not tracked):
@@ -54,8 +57,8 @@ All source data sits under `raw/` and is **not committed to the repository**. Ob
 | `bgs_sbs_pred` | BGS Predictive Seabed Sediments UK v1 | British Geological Survey | `Predictive_SBS_UK_V1_GeoPackage/BGS_Predictive_Seabed_Sediments_UK_v1.gpkg` |
 | `bgs_bedrock` | BGS Offshore Bedrock 250k | British Geological Survey | `offshore-bedrock-250k-geopackage/BGS_BedrockOffshore_250k_WGS84_v3.gpkg` |
 | `defr` | Intertidal Substrate Foreshore (England and Scotland) | DEFR / Natural England | `Intertidal Substrate Foreshore (England and Scotland)/DEFR00000009.shp` |
-| `emodnet_depth` | EMODnet Bathymetry — depth | EMODnet | `emodnet_depth_bng.tif` |
-| `emodnet_slope` | EMODnet Bathymetry — slope | EMODnet | `emodnet_slope_bng.tif` |
+| `emodnet_depth` | EMODnet Bathymetry — depth | EMODnet | `emodnet_bathymetry/emodnet_depth_england_bng.tif` |
+| `emodnet_slope` | EMODnet Bathymetry — slope | EMODnet | `emodnet_bathymetry/emodnet_slope_england_bng.tif` |
 
 **UKASH** provides seabed habitat classification in EUNIS and Marine Habitat Classification (MHC) codes. It is a mosaic of ground-truthed survey maps (~12% of UK waters) infilled by the UKSeaMap predictive model.
 
@@ -73,6 +76,55 @@ When multiple substrate datasets cover the same cell, priority is: BGS observed 
 
 ---
 
+## check_hwl_completeness.py
+
+Audits the topological integrity of the OS High Water Line polyline before running the build. The build pipeline polygonizes the HWL into a land mask to subtract from the outer buffer and produce a seaward-only strip; this requires the polyline to be fully closed. This script proves that it is, and must be run once against a new or updated HWL file before the first build.
+
+Four tests are run in sequence:
+
+| Test | What it checks |
+|------|---------------|
+| TEST 1 — Component analysis | How many disconnected linestring components exist after linemerge. A clean coastline is a set of closed rings (one per landmass/island); open chains indicate gaps. |
+| TEST 2 — Dangle analysis | Extracts all line endpoints. A closed ring has no free endpoints. Any dangling endpoint not snapping to another within tolerance indicates a gap. |
+| TEST 3 — Gap characterisation | For each pair of dangles close enough to close, reports gap size and location. Skipped automatically when TEST 2 finds zero dangles. |
+| TEST 4 — Polygonization attempt | Attempts to polygonize the (optionally snapped and simplified) linestring. Reports polygon count and areas so you can verify the mainland is captured. |
+
+Outputs written to `--out-dir` (default `output/coastline_check/`):
+
+- `dangles.gpkg` — point layer of dangling endpoints (open in QGIS if present)
+- `gaps.gpkg` — line layer connecting paired gap endpoints
+- `components.gpkg` — one feature per disconnected linestring component
+- `land_polygon.gpkg` — polygonized result (only written with `--polygonize`)
+
+The OS HWL supplied with this project passed all four tests cleanly: 5,231 closed rings, 0 open chains, 0 dangling endpoints, 0 polygonization failures, mainland area 218,305 km².
+
+### Usage
+
+```bash
+# Default run — uses raw/os_coastline/high_water_polyline.shp
+python check_hwl_completeness.py
+
+# Explicit path, with polygonization output
+python check_hwl_completeness.py --shp raw/os_coastline/high_water_polyline.shp --polygonize
+
+# Adjust snap tolerance and simplification (rarely needed)
+python check_hwl_completeness.py --snap 10 --polygonize
+python check_hwl_completeness.py --polygonize --no-snap --simplify 5
+
+# Write outputs to a specific directory
+python check_hwl_completeness.py --polygonize --out-dir output/coastline_check
+```
+
+The snap step is automatically skipped when Tests 1–3 confirm zero dangles (the clean-data case), avoiding an O(n²) GEOS vertex-matching operation that can take hours on an already-clean polyline. Pass `--no-snap` to force-skip it regardless.
+
+### Dependencies
+
+```bash
+pip install geopandas shapely numpy
+```
+
+---
+
 ## build_coastal_grid.py
 
 Builds the raw grid from the source datasets. The pipeline constructs the grid in five stages, with each stage writing its results to a `cache/` directory so individual stages can be re-run without repeating upstream work.
@@ -81,13 +133,15 @@ Builds the raw grid from the source datasets. The pipeline constructs the grid i
 
 | Stage | Task | Approx. time | Cached? |
 |-------|------|-------------|---------|
-| 1 | Rasterise the OS High Water Line to a BNG grid (falling back to DEFR foreshore polygon boundary) clipped to England | ~10 s | Once |
-| 2 | Generate the strip mask (HWM → 1 nm) and compute Euclidean distance-to-HWM via EDT | ~15 s | Once |
-| 3 | Load and clip all five source datasets; cache as GeoParquet | slow | Once per dataset |
-| 4 | Spatial joins + raster sampling — each cell centroid joined to the five vector layers and sampled against both EMODnet rasters | ~60 s | Once |
-| 5 | Normalisation + export — raw joined fields collapsed into canonical schema; written to Parquet and SQLite with indexes and views | ~30 s | Always |
+| 1 | Load the OS HWL; polygonize into a land mask; build a seaward-only strip polygon (outer buffer minus land); rasterise the HWM line to BNG grid | ~10 s | Once |
+| 2 | Generate the strip mask (HWM → 500 m seaward) and compute Euclidean distance-to-HWM via EDT | ~15 s | Once |
+| 3 | Load and clip all source datasets; rasterise each as an int-coded NPZ | slow | Once per dataset |
+| 4 | Build tile index — strip cells × raster lookup, tiled into 100 km × 100 km NPZ files | ~60 s | Once |
+| 5 | Export — tile NPZ → normalised canonical schema → SQLite + Parquet with indexes and views | ~30 s | Always |
 
 Stage 3 is the expensive step on first run (several minutes per dataset). Subsequent runs skip any stage whose cache files are already present unless `--force` is passed.
+
+The strip is **seaward-only**: the land polygon polygonized from the HWL closed rings is subtracted from the symmetric outer buffer, so no inland cells are included. This is the v3 fix; earlier versions used a symmetric ±STRIP_M ribbon.
 
 ### Usage
 
@@ -131,6 +185,47 @@ pip install geopandas pyogrio rasterio numpy shapely pyproj pandas tqdm pyarrow 
 ```
 
 Python 3.12 · DuckDB 1.2.1 (for post-build queries; not required by the script itself)
+
+---
+
+## verify_strip_placement.py
+
+Confirms that the built grid strip lies correctly seaward of the HWM (0 → 500 m offshore) rather than straddling it as a centred ribbon (~250 m either side). This is a post-build sanity check that should be run once after the first successful build, or after any change to Stage 1 or Stage 2.
+
+Four independent tests are run:
+
+| Test | What it checks |
+|------|---------------|
+| TEST 1 — Strip raster analysis | Reads the cached NPZ rasters directly. Measures how strip mask pixels distribute relative to HWM pixels. A seaward-only strip should have cells consistently on one side; a centred ribbon would straddle both. |
+| TEST 2 — dist_to_hwm_m distribution | Histogram of the distance column. A correct strip has values in 0–500 m; a centred ribbon shows values from ~0 to ~250 m regardless of zone. |
+| TEST 3 — Land/sea classification | Classifies a random sample of cell centroids as sea-side or land-side of the HWM using a fast vectorised nearest-segment signed cross-product. Passes if ≥95% of strip cells are on the seaward side. |
+| TEST 4 — Depth signature cross-check | Land-side cells should not carry meaningful offshore depth values. Checks that any cells flagged as land-side by TEST 3 have null or negligible depth. |
+
+TEST 3 reads the OS HWL shapefile and uses it to classify cell centroids geometrically — it is the most definitive test but also the slowest. Pass `--no-spatial` to skip it if you only want the raster-based checks.
+
+### Usage
+
+```bash
+# Default run
+python verify_strip_placement.py
+
+# Larger spatial sample for TEST 3 (default 5 000)
+python verify_strip_placement.py --sample 10000
+
+# Skip TEST 3 (land/sea spatial classification)
+python verify_strip_placement.py --no-spatial
+
+# Explicit paths
+python verify_strip_placement.py \
+    --parquet output/spearo_coastal_grid_100m_filled.parquet \
+    --cache cache/stage1_coastline
+```
+
+### Dependencies
+
+```bash
+pip install numpy pandas pyarrow geopandas shapely
+```
 
 ---
 
@@ -208,17 +303,23 @@ pip install geopandas pyogrio rasterio numpy shapely pyproj pandas tqdm pyarrow 
 
 # 2. Place raw datasets under raw/ (see Source datasets above)
 
-# 3. Build the raw grid
+# 3. Audit the OS High Water Line topology (required once before first build)
+python check_hwl_completeness.py --polygonize
+
+# 4. Build the raw grid
 python build_coastal_grid.py --root raw
 
-# 4. Gap-fill (add --bedrock-gpkg to populate bedrock_description)
+# 5. Verify strip placement (recommended after first build)
+python verify_strip_placement.py
+
+# 6. Gap-fill (add --bedrock-gpkg to populate bedrock_description)
 python fill_coastal_grid.py output/spearo_coastal_grid_100m.parquet \
     --bedrock-gpkg raw/offshore-bedrock-250k-geopackage/BGS_BedrockOffshore_250k_WGS84_v3.gpkg
 
-# 5. Point lookup
+# 7. Point lookup
 python query_grid.py --lat 50.614 --lon -1.195 --db output/spearo_coastal_grid_100m.db
 
-# 6. Coverage check
+# 8. Coverage check
 sqlite3 output/spearo_coastal_grid_100m.db "SELECT * FROM coverage"
 ```
 
@@ -243,11 +344,11 @@ Each cell is assigned to one of three coastal zones based on distance from the H
 | Zone | Distance from HWM | Description |
 |------|-------------------|-------------|
 | `intertidal` | Within DEFR foreshore polygon | Exposed at low tide; covered by DEFR foreshore data |
-| `nearshore` | 0 – 500 m | Shallow subtidal strip |
-| `offshore` | 500 – 1,852 m | Outer coastal band to 1 nm |
+| `nearshore` | 0 – 200 m | Shallow subtidal strip |
+| `offshore` | 200 – 500 m | Outer coastal band to strip edge |
 
 ---
 
 ## Environment
 
-Developed and tested on Windows 11 · Python 3.12.8 · DuckDB 1.2.1 · 24-core CPU · 192 GB RAM · RTX 3500 GPU. The build and fill scripts are CPU-bound and make no use of the GPU. The fill script parallelises across up to 24 workers (configurable via `--workers`).
+Developed and tested on Windows 11 · Python 3.12.8 · DuckDB 1.2.1 · 24-core CPU · 192 GB RAM · RTX 3500 GPU. The build and fill scripts are CPU-bound and make no use of the GPU. The fill script parallelises across up to 24 workers (configurable via `--workers`). The parallel buffer step in Stage 1 uses up to 16 workers via `ProcessPoolExecutor`.

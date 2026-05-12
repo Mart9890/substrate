@@ -1,7 +1,104 @@
 .
++--- build_coastal_grid.py
++--- cache
+|   +--- stage1_coastline
+|   |   +--- coastline_raster_100m.npz
+|   |   +--- os_coastline_bng.gpkg
+|   |   +--- strip_polygon_100m.gpkg
+|   +--- stage2_strip
+|   |   +--- dist_hwm_100m.npz
+|   |   +--- raster_meta_100m.json
+|   |   +--- strip_mask_100m.npz
+|   +--- stage3_rasters
+|   |   +--- bgs_bedrock_100m.npz
+|   |   +--- bgs_bedrock_lookup.json
+|   |   +--- bgs_sbs_obs_100m.npz
+|   |   +--- bgs_sbs_obs_lookup.json
+|   |   +--- bgs_sbs_pred_100m.npz
+|   |   +--- bgs_sbs_pred_lookup.json
+|   |   +--- defr_100m.npz
+|   |   +--- defr_lookup.json
+|   |   +--- emodnet_depth_100m.npz
+|   |   +--- emodnet_slope_100m.npz
+|   |   +--- ukash_100m.npz
+|   |   +--- ukash_lookup.json
+|   +--- stage4_index_100m
+|   |   +--- bgs_bedrock_lookup.json
+|   |   +--- bgs_sbs_obs_lookup.json
+|   |   +--- bgs_sbs_pred_lookup.json
+|   |   +--- defr_lookup.json
+|   |   +--- tiles
+|   |   |   +--- tile_E0000_N0000.npz
+|   |   |   +--- tile_E0001_N0000.npz
+|   |   |   +--- tile_E0001_N0001.npz
+|   |   |   +--- tile_E0001_N0002.npz
+|   |   |   +--- tile_E0001_N0005.npz
+|   |   |   +--- tile_E0001_N0006.npz
+|   |   |   +--- tile_E0002_N0000.npz
+|   |   |   +--- tile_E0002_N0001.npz
+|   |   |   +--- tile_E0002_N0002.npz
+|   |   |   +--- tile_E0002_N0003.npz
+|   |   |   +--- tile_E0002_N0005.npz
+|   |   |   +--- tile_E0002_N0006.npz
+|   |   |   +--- tile_E0003_N0000.npz
+|   |   |   +--- tile_E0003_N0001.npz
+|   |   |   +--- tile_E0003_N0002.npz
+|   |   |   +--- tile_E0003_N0003.npz
+|   |   |   +--- tile_E0003_N0004.npz
+|   |   |   +--- tile_E0003_N0005.npz
+|   |   |   +--- tile_E0003_N0006.npz
+|   |   |   +--- tile_E0004_N0000.npz
+|   |   |   +--- tile_E0004_N0001.npz
+|   |   |   +--- tile_E0004_N0003.npz
+|   |   |   +--- tile_E0004_N0004.npz
+|   |   |   +--- tile_E0004_N0005.npz
+|   |   |   +--- tile_E0004_N0006.npz
+|   |   |   +--- tile_E0005_N0000.npz
+|   |   |   +--- tile_E0005_N0001.npz
+|   |   |   +--- tile_E0005_N0002.npz
+|   |   |   +--- tile_E0005_N0003.npz
+|   |   |   +--- tile_E0005_N0004.npz
+|   |   |   +--- tile_E0005_N0005.npz
+|   |   |   +--- tile_E0006_N0001.npz
+|   |   |   +--- tile_E0006_N0002.npz
+|   |   |   +--- tile_E0006_N0003.npz
+|   |   +--- tile_registry.json
+|   |   +--- ukash_lookup.json
++--- check_hwl_completeness.py
++--- coverage_completeness.py
 +--- dataset_inspection.json
 +--- dataset_inspection.md
++--- diagnose_grid.py
++--- fill_coastal_grid.py
++--- grid_cache_500m.gpkg
 +--- inspect_datasets.py
++--- log
+|   +--- build_coastal_grid_20260430_114845.log
+|   +--- build_coastal_grid_20260430_120224.log
+|   +--- build_coastal_grid_20260430_120304.log
+|   +--- build_coastal_grid_20260430_122837.log
+|   +--- build_coastal_grid_20260430_123358.log
+|   +--- build_coastal_grid_20260511_100756.log
+|   +--- build_coastal_grid_20260511_100817.log
+|   +--- build_coastal_grid_20260511_104843.log
+|   +--- build_coastal_grid_20260511_133256.log
+|   +--- build_coastal_grid_20260511_171845.log
+|   +--- build_coastal_grid_20260511_172058.log
+|   +--- build_coastal_grid_20260511_173609.log
+|   +--- build_coastal_grid_20260511_174047.log
+|   +--- build_coastal_grid_20260511_180027.log
+|   +--- build_coastal_grid_20260511_182133.log
+|   +--- build_coastal_grid_20260511_182430.log
+|   +--- build_coastal_grid_20260511_182857.log
++--- output
+|   +--- build_manifest_100m.json
+|   +--- coastline_check
+|   |   +--- components.gpkg
+|   |   +--- land_polygon.gpkg
+|   +--- spearo_coastal_grid_100m.db
+|   +--- spearo_coastal_grid_100m.parquet
+|   +--- spearo_coastal_grid_100m_filled.parquet
++--- query_grid.py
 +--- raw
 |   +--- bgs-offshore-sbs-250k-geopackage
 |   |   +--- BGS_250k_SeabedSediments_WGS84_v3_FOLK.gpkg
@@ -102,6 +199,53 @@
 |   |   +--- SMP_Coastline_Inundation_2050.lyr
 |   |   +--- SMP_Coastline_Inundation_2080.lyr
 |   |   +--- SMP_Coastline_Inundation_2100.lyr
+|   +--- EMODnet bathymetry
+|   |   +--- download_emodnet_bathymetry.py
+|   |   +--- raw
+|   |   |   +--- emodnet_bathymetry
+|   |   |   |   +--- download_manifest.json
+|   |   |   |   +--- emodnet_aspect_england_bng.tif
+|   |   |   |   +--- emodnet_depth_england.tif
+|   |   |   |   +--- emodnet_depth_england_bng.tif
+|   |   |   |   +--- emodnet_slope_england_bng.tif
+|   |   |   |   +--- _tiles
+|   |   |   |   |   +--- tile_0000.tif
+|   |   |   |   |   +--- tile_0001.tif
+|   |   |   |   |   +--- tile_0002.tif
+|   |   |   |   |   +--- tile_0003.tif
+|   |   |   |   |   +--- tile_0004.tif
+|   |   |   |   |   +--- tile_0005.tif
+|   |   |   |   |   +--- tile_0006.tif
+|   |   |   |   |   +--- tile_0007.tif
+|   |   |   |   |   +--- tile_0008.tif
+|   |   |   |   |   +--- tile_0009.tif
+|   |   |   |   |   +--- tile_0010.tif
+|   |   |   |   |   +--- tile_0011.tif
+|   |   |   |   |   +--- tile_0012.tif
+|   |   |   |   |   +--- tile_0013.tif
+|   |   |   |   |   +--- tile_0014.tif
+|   +--- emodnet_bathymetry
+|   |   +--- download_manifest.json
+|   |   +--- emodnet_aspect_england_bng.tif
+|   |   +--- emodnet_depth_england.tif
+|   |   +--- emodnet_depth_england_bng.tif
+|   |   +--- emodnet_slope_england_bng.tif
+|   |   +--- _tiles
+|   |   |   +--- tile_0000.tif
+|   |   |   +--- tile_0001.tif
+|   |   |   +--- tile_0002.tif
+|   |   |   +--- tile_0003.tif
+|   |   |   +--- tile_0004.tif
+|   |   |   +--- tile_0005.tif
+|   |   |   +--- tile_0006.tif
+|   |   |   +--- tile_0007.tif
+|   |   |   +--- tile_0008.tif
+|   |   |   +--- tile_0009.tif
+|   |   |   +--- tile_0010.tif
+|   |   |   +--- tile_0011.tif
+|   |   |   +--- tile_0012.tif
+|   |   |   +--- tile_0013.tif
+|   |   |   +--- tile_0014.tif
 |   +--- GeoCoast_Erosion_Profile_Domains
 |   |   +--- GeoCoast_v1_Erosion_Domains.lyr
 |   |   +--- GeoCoast_v1_Erosion_Profile_Domains.CPG
@@ -123,6 +267,11 @@
 |   +--- offshore-bedrock-250k-geopackage
 |   |   +--- BGS_BedrockOffshore_250k_WGS84_v3.gpkg
 |   |   +--- OR21010.pdf
+|   +--- os_coastline
+|   |   +--- high_water_polyline.dbf
+|   |   +--- high_water_polyline.prj
+|   |   +--- high_water_polyline.shp
+|   |   +--- high_water_polyline.shx
 |   +--- Predictive_SBS_UK_V1_GeoPackage
 |   |   +--- BGS_Predictive_Seabed_Sediments_UK_v1.gpkg
 |   |   +--- metadata
@@ -195,4 +344,14 @@
 |   |   |   +--- a0000000b.spx
 |   |   |   +--- gdb
 |   |   |   +--- timestamps
++--- README.md
++--- reports
+|   +--- spearo_coastal_grid_100m_completeness.json
+|   +--- spearo_coastal_grid_100m_gaps.gpkg
+|   +--- spearo_coastal_grid_100m_map.png
++--- spearo_coastal_grid_100m_filled_README.md
 +--- tree.txt
++--- verify_strip_placement.py
++--- verify_strip_placement.txt
++--- __pycache__
+|   +--- build_coastal_grid.cpython-312.pyc

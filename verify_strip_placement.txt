@@ -1,0 +1,87 @@
+[0m[0K========================================================================[0K
+  verify_strip_placement.py[0K
+  Tests whether the coastal grid is correctly seaward of the HWM.[0K
+========================================================================[0K
+     Parquet:   output\spearo_coastal_grid_100m_filled.parquet[0K
+     Cache:     cache\stage1_coastline[0K
+     Sample N:  10,000[0K
+[0K
+Loading parquet …[0K
+[0K     Loaded 864,377 rows, columns: ['cell_id', 'easting_bng', 'northing_bng', 'dist_to_hwm_m', 'depth_m', 'zone'][0K
+[0K
+========================================================================[0K
+  TEST 1 — Strip mask raster analysis (fast, no geometry ops)[0K
+========================================================================[0K
+     Loading raster meta …[0K
+       {'origin_e': 82100, 'origin_n': 679900, 'cell_size': 100, 'n_cols': 5741, 'n_rows': 6751}[0K
+     Loading strip mask …[0K
+[0K       shape=(6751, 5741)  strip pixels=864,377[0K
+     Loading distance-to-HWM raster …[0K
+[0K       shape=(6751, 5741)  range=[0, 234871] m[0K
+     Loading coastline raster …[0K
+[0K       shape=(6751, 5741)  HWM pixels=154,833[0K
+[0K
+------------------------------------------------------------------------[0K
+  1a — Distance-to-HWM of strip cells[0K
+------------------------------------------------------------------------[0K
+       min:    0 m[0K
+       max:    539 m[0K
+       mean:   205 m[0K
+[0K       median: 200 m[0K
+       within  926 m: 100.0%  (expect ~50% for seaward strip, ~100% for ribbon)[0K
+       within 1852 m: 100.0%[0K
+       beyond 1852 m: 0.0%  (should be ~0%)[0K
+[0K
+------------------------------------------------------------------------[0K
+  1b — Per-column strip extent relative to HWM row[0K
+------------------------------------------------------------------------[0K
+[0K       Columns with both HWM and strip pixels: 5,520[0K
+       Sampling every 11th column (502 columns) …[0K
+[0K
+  Mean strip pixels per column:[0K
+         Above HWM row (lower row idx / more north): 79.7  (50.9%)[0K
+         Below HWM row (higher row idx / more south): 76.9  (49.1%)[0K
+[0K
+  Row 0 = northernmost. 'Above' = north of HWM, 'below' = south.[0K
+       For England south/east coasts, seaward = south/east = higher row idx.[0K
+       A seaward-only strip: heavily skewed to one side.[0K
+       A centred ribbon:     ~50% / 50%.[0K
+  ✗[0K
+  51% / 49% split — strongly centred ribbon.[0K
+[0K
+  ✗  TEST 1 VERDICT: 100.0% of strip cells within 926 m of HWM.[0K
+  ✗    Seaward 0–1852 m strip would be ~50%. Ribbon hypothesis CONFIRMED.[0K
+[0K
+========================================================================[0K
+  TEST 2 — dist_to_hwm_m distribution (parquet column)[0K
+========================================================================[0K
+[0K       n=864,377  min=0 m  max=538 m  mean=205 m  median=200 m[0K
+[0K
+          0–100   m:  166,184  ██████████████████[0K
+        100–250   m:  211,533  ███████████████████████[0K
+        250–500   m:  330,630  ████████████████████████████████████[0K
+        500–750   m:    1,197[0K
+        750–926   m:        0[0K
+        926–1000  m:        0[0K
+       1000–1250  m:        0[0K
+       1250–1500  m:        0[0K
+       1500–1852  m:        0[0K
+       1852–2000  m:        0[0K
+       2000–9999  m:        0[0K
+[0K
+  ⚠  Max 538 m — strip narrower than expected[0K[1G
+  ⚠  Median 200 m — low, consistent with narrow/centred strip[0K
+[0K
+========================================================================[0K
+  TEST 3 — Land / sea side classification (vectorised spatial)[0K
+========================================================================[0K
+[0K     Sampling 10,000 cells …[0K
+[0KC:\Spearo\substrate dataset\verify_strip_placement.py:257: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be exc[0Kl
+uded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.[0K
+  .apply(lambda g: g.sample(min(len(g), per_bin),[0K
+       Actual sample: 10,000 cells[0K
+     Loading and extracting coastline segments …[0K
+[0K       5,823,530 coastline segments[0K
+[0K     Classifying 10,000 points (fully vectorised) …[0K
+       Should complete in ~10–30 s …[0K
+[0K
