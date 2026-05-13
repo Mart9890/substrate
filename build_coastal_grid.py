@@ -448,19 +448,46 @@ def _parallel_buffer(geoms, dist: float, resolution: int = 4,
 
 def _build_land_polygon(coast_geom, cache_dir: Path, cell_size: int) -> object:
     """
-    Polygonize the OS HWL closed rings into a single land polygon and cache it.
+    Build a land polygon for England (mainland + islands) and cache it.
 
-    The OS HWL diagnostic confirmed:
-      - 5,231 closed rings, 0 open chains, 0 dangling endpoints
-    Polygonization is therefore safe and produces a complete land mask.
+    WHY NOT polygonize the HWL directly:
+      The OS HWL mainland is an OPEN polyline — it runs from one point on the
+      Scottish border around England and back to another point on the Scottish
+      border, never closing.  polygonize_full therefore produces only the 5,231
+      small ISLAND / ESTUARY rings (total ~2,543 km²), never the mainland.
 
-    Filters out slivers < 1 km² (polygonizer artefacts), then unions all
-    valid polygons into one MultiPolygon.
+    WHY NOT use OS Boundary-Line country_region.shp:
+      The administrative boundary follows river/estuary midlines, not the HWL.
+      outer.difference(country_region) would incorrectly remove nearshore cells
+      inside wide estuaries (Thames, Humber, Severn) where the admin boundary
+      extends up to 1–5 km seaward of the HWL.
+
+    CORRECT APPROACH — close the mainland ring with the bbox boundary:
+      1. Take the HWL linestrings (already clipped to ENGLAND_BBOX_BNG).
+      2. Add the four sides of ENGLAND_BBOX_BNG as additional lines.
+         The bbox boundary connects the two open endpoints of the mainland HWL
+         (which terminate at the bbox edge where England meets Scotland).
+      3. polygonize_full on the union of HWL + bbox boundary.
+         This now produces closed polygons:
+           — England mainland (largest polygon by area, ~130,000 km²)
+           — Each island and enclosed feature (smaller polygons)
+           — Sea areas enclosed between the bbox edge and the coast (unwanted)
+      4. Filter to polygons ≥ 1 km² to remove rasterisation slivers.
+      5. The sea-area polygons produced by step 3 are the ones that have the
+         bbox boundary as part of their perimeter.  The land polygons do NOT
+         touch the bbox boundary (their perimeter is entirely HWL).
+         Detect and discard sea polygons by checking whether any vertex lies
+         exactly on the bbox boundary line.
+      6. Union remaining polygons → England + islands land mask.
+
+    The result uses the HWL as the EXACT land/sea boundary — correct for
+    estuaries, islands, harbours, and all coastal geometry.
 
     Cached as land_polygon_{cell_size}m.gpkg in stage1_coastline/.
     Returns a Shapely geometry (Polygon or MultiPolygon) in EPSG:27700.
     """
     from shapely.ops import polygonize_full, linemerge, unary_union as _uu
+    from shapely.geometry import box as shapely_box, LineString, MultiLineString
 
     s1_dir    = cache_dir / "stage1_coastline"
     land_gpkg = s1_dir / f"land_polygon_{cell_size}m.gpkg"
@@ -469,42 +496,112 @@ def _build_land_polygon(coast_geom, cache_dir: Path, cell_size: int) -> object:
         log(f"  ✓ Cached land polygon — loading {land_gpkg.name}...", indent=2)
         t1   = time.time()
         land = gpd.read_file(land_gpkg).geometry.iloc[0]
-        log(f"    Loaded  ({time.time()-t1:.1f}s)", indent=2)
+        log(f"    Loaded  area={land.area/1e6:,.0f} km²  ({time.time()-t1:.1f}s)",
+            indent=2)
         return land
 
-    log("  Polygonizing HWL into land polygon...", indent=2)
+    log("  Building land polygon from HWL + bbox closure...", indent=2)
     t1 = time.time()
 
-    merged = linemerge(coast_geom)
-    result, dangles, cut_edges, invalid = polygonize_full(merged)
+    # ── Step 1: bbox boundary lines ───────────────────────────────────────────
+    # Use a bbox slightly LARGER than ENGLAND_BBOX_BNG so the closing segments
+    # sit just outside the clipped HWL endpoints and don't create zero-length
+    # intersections at the exact clip boundary.
+    pad = cell_size  # 100 m padding
+    bx0, by0, bx1, by1 = (
+        ENGLAND_BBOX_BNG[0] - pad,
+        ENGLAND_BBOX_BNG[1] - pad,
+        ENGLAND_BBOX_BNG[2] + pad,
+        ENGLAND_BBOX_BNG[3] + pad,
+    )
+    bbox_lines = [
+        LineString([(bx0, by0), (bx1, by0)]),   # south
+        LineString([(bx1, by0), (bx1, by1)]),   # east
+        LineString([(bx1, by1), (bx0, by1)]),   # north  ← closes mainland ring
+        LineString([(bx0, by1), (bx0, by0)]),   # west
+    ]
+
+    # ── Step 2: union HWL + bbox and polygonize ───────────────────────────────
+    t2          = time.time()
+    all_lines   = _uu([coast_geom] + bbox_lines)
+    merged      = linemerge(all_lines)
+    result, dangles, cut_edges, _ = polygonize_full(merged)
 
     polys = (list(result.geoms) if hasattr(result, "geoms")
              else ([result] if not result.is_empty else []))
-
-    log(f"    Polygonizer: {len(polys):,} raw polygons  ({time.time()-t1:.1f}s)",
+    log(f"    Polygonizer: {len(polys):,} raw polygons  ({time.time()-t2:.1f}s)",
         indent=3)
 
     if not polys:
         raise RuntimeError(
-            "Polygonization produced no polygons — HWL may not be fully closed. "
-            "Run check_hwl_completeness.py --polygonize to diagnose."
+            "Polygonization produced no polygons after bbox-closure. "
+            "Check that the HWL covers England and is clipped to ENGLAND_BBOX_BNG."
         )
 
-    # Filter slivers (< 1 km²)
-    MIN_AREA_M2  = 1_000_000
-    polys_valid  = [p for p in polys if p.area >= MIN_AREA_M2]
-    log(f"    After sliver filter (≥1 km²): {len(polys_valid):,} polygons "
-        f"({len(polys)-len(polys_valid):,} removed)", indent=3)
+    # ── Step 3: classify and select land polygons ─────────────────────────────
+    # polygonize_full produces three classes of polygon:
+    #   A) England mainland  — large, contains the bbox interior point, touches bbox
+    #   B) Islands           — small/medium, do NOT touch bbox (bounded entirely by HWL)
+    #   C) Sea areas         — bounded by bbox edge + coast, touch bbox but do NOT
+    #                          contain the known inland point
+    #
+    # Strategy:
+    #   1. Find the mainland polygon: the one that contains a known inland point.
+    #      Use the centre of ENGLAND_BBOX_BNG — guaranteed to be deep inland.
+    #   2. Islands: all polygons >= 1 km² that do NOT touch the padded bbox.
+    #   3. Sea areas: touch bbox and do NOT contain inland point — discard.
 
-    if not polys_valid:
+    MIN_AREA_M2 = 1_000_000   # 1 km² — remove rasterisation slivers
+
+    # Known inland point — centre of England bbox, safely inside mainland
+    inland_pt_e = (ENGLAND_BBOX_BNG[0] + ENGLAND_BBOX_BNG[2]) / 2   # ~368,500
+    inland_pt_n = (ENGLAND_BBOX_BNG[1] + ENGLAND_BBOX_BNG[3]) / 2   # ~331,170
+    from shapely.geometry import Point
+    inland_pt = Point(inland_pt_e, inland_pt_n)
+
+    bbox_geom     = shapely_box(bx0, by0, bx1, by1)
+    bbox_exterior = bbox_geom.exterior
+
+    def _touches_bbox(poly):
+        try:
+            inter = poly.exterior.intersection(bbox_exterior)
+            return not inter.is_empty and inter.length > 1.0
+        except Exception:
+            return False
+
+    mainland = None
+    islands  = []
+    for p in polys:
+        if p.area < MIN_AREA_M2:
+            continue
+        if p.contains(inland_pt):
+            # This is the England mainland polygon
+            if mainland is None or p.area > mainland.area:
+                mainland = p
+        elif not _touches_bbox(p):
+            # Does not touch bbox boundary → bounded entirely by HWL → island
+            islands.append(p)
+        # else: touches bbox but doesn't contain inland point → sea area → discard
+
+    if mainland is None:
         raise RuntimeError(
-            "No polygons ≥ 1 km² after polygonization — unexpected result."
+            f"Could not find England mainland polygon. "
+            f"No polygon contains inland test point E={inland_pt_e:.0f}, N={inland_pt_n:.0f}. "
+            f"Largest polygon area: {max(p.area for p in polys)/1e6:.0f} km². "
+            f"Check that ENGLAND_BBOX_BNG and the HWL are consistent."
         )
 
+    polys_land = [mainland] + islands
+    log(f"    Mainland: {mainland.area/1e6:,.0f} km²  "
+        f"Islands: {len(islands):,}  "
+        f"Total land: {sum(p.area for p in polys_land)/1e6:,.0f} km²",
+        indent=3)
+
+    # ── Step 4: union and cache ───────────────────────────────────────────────
     t2   = time.time()
-    land = _uu(polys_valid)
-    log(f"    Union done  ({time.time()-t2:.1f}s)  "
-        f"area={land.area/1e6:,.0f} km²", indent=3)
+    land = _uu(polys_land)
+    log(f"    Union done  area={land.area/1e6:,.0f} km²  ({time.time()-t2:.1f}s)",
+        indent=3)
 
     t2 = time.time()
     gpd.GeoDataFrame({"id": [1]}, geometry=[land], crs=EPSG_BNG).to_file(
@@ -694,9 +791,8 @@ def stage2_strip(coast_gdf, coast_arr: np.ndarray,
     strip_mask: uint8, 1 = cell centre is inside the seaward HWM→STRIP_M band
     dist_hwm:   float32, metres to nearest HWM pixel (Euclidean, always >= 0)
 
-    The strip is seaward-only: the land polygon (polygonized from the fully-closed
-    HWL rings) is subtracted from the symmetric outer buffer, so no inland cells
-    are included.
+    The strip is seaward-only: the land polygon (built from HWL + bbox closure)
+    is subtracted from the symmetric outer buffer so no inland cells are included.
     """
     s2_dir   = cache_dir / "stage2_strip"
     mask_out = s2_dir / f"strip_mask_{cell_size}m.npz"
