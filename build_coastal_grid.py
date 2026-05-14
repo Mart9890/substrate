@@ -124,7 +124,7 @@ from tqdm import tqdm
 # ── Constants ─────────────────────────────────────────────────────────────────
 
 EPSG_BNG     = 27700
-STRIP_M      = 500        # strip outer edge (metres from HWM)  ← 500m spearfisher zone
+STRIP_M      = 1_852        # strip outer edge (metres from HWM)  ← 500m spearfisher zone
 NEARSHORE_M  = 200        # nearshore zone boundary (m) — roughly 0-200m / 200-500m
 TILE_SIZE_M  = 100_000    # 100 km tiles — about 40 tiles for England coast
 
